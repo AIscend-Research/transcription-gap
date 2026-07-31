@@ -18,6 +18,28 @@ SAMPLE_RATE = 24000  # linear16 mono, what we ask Aura for and hand back to Nova
 
 
 @dataclass
+class Rates:
+    """Deepgram pay-as-you-go rates, checked against deepgram.com/pricing on
+    2026-07-31. Published prices change; override them here or with --rate-*
+    rather than trusting this comment. Growth-tier rates are lower
+    (aura-2 $0.027/1k chars, nova-3 mono $0.0065/min)."""
+
+    tts_per_1k_chars: float = 0.030   # aura-2
+    stt_per_minute: float = 0.0077    # nova-3 monolingual, pre-recorded
+
+    def cost(self, chars: int, audio_seconds: float) -> dict:
+        tts = chars / 1000.0 * self.tts_per_1k_chars
+        stt = audio_seconds / 60.0 * self.stt_per_minute
+        return {
+            "tts_chars": chars,
+            "stt_seconds": round(audio_seconds, 1),
+            "tts_usd": round(tts, 4),
+            "stt_usd": round(stt, 4),
+            "total_usd": round(tts + stt, 4),
+        }
+
+
+@dataclass
 class RoomConfig:
     """The channel the performance passes through on its way to being heard.
 
@@ -88,6 +110,7 @@ class RunConfig:
     performance: PerformanceConfig = field(default_factory=PerformanceConfig)
     listen: ListenConfig = field(default_factory=ListenConfig)
     room: RoomConfig = field(default_factory=RoomConfig)
+    rates: Rates = field(default_factory=Rates)
 
     # ---- (de)serialisation -------------------------------------------------
     def to_dict(self) -> dict:
@@ -103,6 +126,7 @@ class RunConfig:
             "performance": PerformanceConfig,
             "listen": ListenConfig,
             "room": RoomConfig,
+            "rates": Rates,
         }
         for key, klass in nested.items():
             if isinstance(d.get(key), dict):

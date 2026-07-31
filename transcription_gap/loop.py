@@ -48,6 +48,10 @@ class TranscriptionGapLoop:
 
         self.iterations: list[Iteration] = []
         self.all_substitutions: list[tuple[str, str]] = []
+        # Billable units, accumulated as we go: characters sent to Aura and
+        # seconds of audio sent to Nova.
+        self.tts_chars = 0
+        self.stt_seconds = 0.0
 
     # -- helpers ----------------------------------------------------------
 
@@ -96,9 +100,11 @@ class TranscriptionGapLoop:
                         samples = _resample(samples, rate, SAMPLE_RATE)
                 else:
                     samples = self.client.perform(prev, cfg.performance)
+                    self.tts_chars += len(prev)
 
                 samples = apply_room(samples, cfg.room)
                 secs = duration_s(samples)
+                self.stt_seconds += secs
                 wav = encode_wav(samples)
 
                 audio_path = None
@@ -181,6 +187,7 @@ class TranscriptionGapLoop:
             "room_active": self.cfg.room.active,
             "convergence": conv,
             "authorship": auth,
+            "cost": self.cfg.rates.cost(self.tts_chars, self.stt_seconds),
             "series": {
                 "wer_vs_prev": series("wer_vs_prev") if steps else [],
                 "wer_vs_seed": series("wer_vs_seed") if steps else [],
@@ -235,6 +242,8 @@ class TranscriptionGapLoop:
         loop.audio_dir = out / "audio"
         loop.iterations = []
         loop.all_substitutions = []
+        loop.tts_chars = 0
+        loop.stt_seconds = 0.0
 
         metrics_by_index: dict[int, dict] = {}
         mpath = out / "metrics.jsonl"
@@ -253,6 +262,12 @@ class TranscriptionGapLoop:
                 metrics_by_index.get(idx), [],
             ))
         loop.iterations.sort(key=lambda it: it.index)
+        # Rebuild the billable totals: every take except the last was performed,
+        # and each iteration's audio length is in its metrics row.
+        loop.tts_chars = sum(len(it.text) for it in loop.iterations[:-1])
+        loop.stt_seconds = sum(
+            float(it.metrics["audio_seconds"]) for it in loop.iterations if it.metrics
+        )
         for a, b in zip(loop.iterations, loop.iterations[1:]):
             loop.all_substitutions.extend(
                 M.align(M.words(a.text), M.words(b.text)).substitutions

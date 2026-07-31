@@ -217,6 +217,23 @@ def test_room_active_detection():
     assert RoomConfig(room_decay=0.3).active
 
 
+# --- cost ----------------------------------------------------------------
+
+def test_rates_arithmetic_is_exact():
+    from transcription_gap.config import Rates
+    c = Rates(tts_per_1k_chars=0.030, stt_per_minute=0.0077).cost(2000, 120.0)
+    assert c["tts_usd"] == 0.06          # 2 x $0.030
+    assert c["stt_usd"] == 0.0154        # 2 min x $0.0077
+    assert c["total_usd"] == 0.0754
+
+
+def test_rates_roundtrip_through_config():
+    cfg = RunConfig(rates=__import__("transcription_gap.config", fromlist=["Rates"])
+                    .Rates(tts_per_1k_chars=0.015))
+    back = RunConfig.from_dict(json.loads(json.dumps(cfg.to_dict())))
+    assert back.rates.tts_per_1k_chars == 0.015
+
+
 # --- the offline stand-in is deterministic -------------------------------
 
 def test_offline_client_is_deterministic():
@@ -262,6 +279,8 @@ def test_full_offline_run_produces_every_artifact():
 
         assert summary["iterations_run"] >= 1
         assert "convergence" in summary and "authorship" in summary
+        assert summary["cost"]["tts_chars"] > 0
+        assert summary["cost"]["total_usd"] > 0
         assert len(summary["series"]["wer_vs_prev"]) == summary["iterations_run"]
 
         # the report renders from the summary alone
@@ -274,7 +293,11 @@ def test_full_offline_run_produces_every_artifact():
         # and a finished run can be reloaded from disk without an API client
         reloaded = TranscriptionGapLoop.from_output_dir(out)
         assert len(reloaded.iterations) == summary["iterations_run"] + 1
-        assert reloaded.summarize()["iterations_run"] == summary["iterations_run"]
+        again = reloaded.summarize()
+        assert again["iterations_run"] == summary["iterations_run"]
+        # billable totals must be recoverable from disk, not just live state
+        assert again["cost"]["tts_chars"] == summary["cost"]["tts_chars"]
+        assert abs(again["cost"]["stt_seconds"] - summary["cost"]["stt_seconds"]) < 0.2
 
 
 def test_fixed_point_stops_the_loop_early():

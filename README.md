@@ -46,14 +46,17 @@ Deepgram does both halves of the loop — `/v1/speak` (Aura) performs, `/v1/list
 ## Run it
 
 ```bash
+# what will this cost? (spends nothing)
+.venv/bin/python -m transcription_gap estimate -n 25
+
 # one loop
-.venv/bin/python -m transcription_gap run --seed seeds/lucier.txt -n 12
+.venv/bin/python -m transcription_gap run --seed seeds/lucier.txt -n 25
 
 # no key? exercise the whole pipeline against a simulated transcriber
 .venv/bin/python -m transcription_gap run --offline -n 10
 
-# the actual experiment: three scores, one transcriber, do they meet
-.venv/bin/python -m transcription_gap sweep --seeds "seeds/*.txt" -n 10
+# the actual experiment: eight scores, one transcriber, do they meet
+.venv/bin/python -m transcription_gap sweep --seeds "seeds/*.txt" -n 25
 ```
 
 Each run writes to `outputs/<name>/`:
@@ -63,7 +66,7 @@ Each run writes to `outputs/<name>/`:
 | `iterations/00.txt` … | the score, then every take |
 | `audio/01.wav` … | each performance as it was heard |
 | `metrics.jsonl` | one row of measurements per iteration |
-| `summary.json` | drift series, convergence verdict, authorship split |
+| `summary.json` | drift series, convergence verdict, authorship split, cost |
 | `report.html` | self-contained report — open it in a browser |
 | `manifest.json` | index of the above |
 
@@ -98,6 +101,39 @@ seeds versus between their finals. If the finals are closer, the loop is pulling
 everything toward a common destination rather than degrading each text
 independently — and the words every final shares that no seed contained are that
 attractor's own vocabulary.
+
+## The seeds
+
+Eight scores across deliberately different registers, so "it converges to an
+attractor" can be a claim about the transcriber rather than about one text:
+
+| seed | register | what it stresses |
+|---|---|---|
+| `lucier.txt` | procedural self-description | the piece stating its own method |
+| `credits.txt` | argumentative prose | abstract nouns, no concrete anchors |
+| `litany.txt` | performance instructions | heavy phrasing, repetition, dashes |
+| `dialogue.txt` | two-speaker exchange | quotation marks, interruption, short turns |
+| `form.txt` | a form read aloud | numerals, labels, list structure |
+| `verse.txt` | lineated verse | line breaks, rhyme, deliberate homophones |
+| `technical.txt` | clinical exposition | jargon and low-frequency vocabulary |
+| `plain.txt` | unstructured speech | hedges, self-interruption, "sort of" |
+
+They are original texts in Lucier's lineage, not his text. Add your own — a
+seed is just a `.txt` file, and `sweep` picks up everything matching the glob.
+More seeds is the cheapest way to strengthen the result.
+
+## Cost
+
+Both billable quantities scale with text length: characters into Aura, minutes
+out of it and into Nova. `estimate` prices a plan up front, and every finished
+run records what it actually spent in `summary.json`.
+
+Eight seeds × 25 iterations ≈ **$6** total — about $0.75 per run, roughly
+2¢ per iteration. At the rates published on 2026-07-31 (Aura-2 $0.030/1k chars,
+Nova-3 monolingual $0.0077/min, pay-as-you-go). Override with `--rate-tts` /
+`--rate-stt` if they've moved, or if you're on Growth tier where they're lower.
+
+Runs that reach a fixed point stop early and cost less than the estimate.
 
 ## Where the performance lives
 
@@ -150,7 +186,7 @@ write_report("outputs/x")
 .venv/bin/python tests/test_transcription_gap.py   # or: python -m pytest -q
 ```
 
-36 tests, no network. The artistic claim rests entirely on the numbers being
+38 tests, no network. The artistic claim rests entirely on the numbers being
 right, so the edit distance, convergence detector and authorship split are all
 checked against hand-computed cases.
 
@@ -160,6 +196,4 @@ checked against hand-computed cases.
   dropped function words, house-style reformatting), not a speech model. It is
   for testing the pipeline. Only a real Deepgram run measures a real
   transcriber; the report header records which one produced it.
-- Cost: a 150-word score for 12 iterations is roughly 12 TTS calls of ~1 KB and
-  12 minutes of audio through STT. Pennies.
 - The seeds are original texts written in Lucier's lineage, not his text.
