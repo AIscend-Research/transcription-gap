@@ -1,0 +1,599 @@
+"""Self-contained HTML report for a run.
+
+No CDN, no build step: one file you can open with a double-click or hand to a
+reviewer. Charts are rendered client-side from an embedded JSON blob by a small
+vanilla renderer at the bottom of this file.
+"""
+
+from __future__ import annotations
+
+import html
+import json
+from pathlib import Path
+
+from . import metrics as M
+
+# Categorical slots 1-3 of the validated reference palette (blue / orange /
+# aqua). Validated with scripts/validate_palette.js in both modes: all checks
+# pass; light-mode aqua sits under 3:1 on the light surface, so every series is
+# also direct-labelled and a table view ships below each chart -- the relief
+# rule, satisfied.
+_TEMPLATE = r"""
+<style>
+  :root {
+    color-scheme: light;
+    --surface-0: #ffffff;
+    --surface-1: #fcfcfb;
+    --surface-2: #f4f4f2;
+    --border: #e2e2dd;
+    --text-primary: #0b0b0b;
+    --text-secondary: #52514e;
+    --text-muted: #7d7c76;
+    --series-1: #2a78d6;
+    --series-2: #eb6834;
+    --series-3: #1baf7a;
+    --grid: #e8e8e3;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:where(:not([data-theme="light"])) {
+      color-scheme: dark;
+      --surface-0: #121211;
+      --surface-1: #1a1a19;
+      --surface-2: #232322;
+      --border: #35352f;
+      --text-primary: #ffffff;
+      --text-secondary: #c3c2b7;
+      --text-muted: #8f8e85;
+      --series-1: #3987e5;
+      --series-2: #d95926;
+      --series-3: #199e70;
+      --grid: #2b2b28;
+    }
+  }
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+    --surface-0: #121211;
+    --surface-1: #1a1a19;
+    --surface-2: #232322;
+    --border: #35352f;
+    --text-primary: #ffffff;
+    --text-secondary: #c3c2b7;
+    --text-muted: #8f8e85;
+    --series-1: #3987e5;
+    --series-2: #d95926;
+    --series-3: #199e70;
+    --grid: #2b2b28;
+  }
+
+  body {
+    margin: 0;
+    background: var(--surface-0);
+    color: var(--text-primary);
+    font: 15px/1.6 ui-sans-serif, -apple-system, "Segoe UI", Roboto, sans-serif;
+  }
+  .wrap { max-width: 980px; margin: 0 auto; padding: 48px 24px 96px; }
+  h1 { font-size: 30px; line-height: 1.2; margin: 0 0 6px; letter-spacing: -0.02em; }
+  h2 { font-size: 19px; margin: 48px 0 4px; letter-spacing: -0.01em; }
+  h3 { font-size: 14px; margin: 0 0 2px; font-weight: 600; }
+  .sub { color: var(--text-secondary); margin: 0 0 8px; }
+  .muted { color: var(--text-muted); font-size: 13px; }
+  .lede { color: var(--text-secondary); max-width: 68ch; }
+
+  .tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; margin: 28px 0 8px; }
+  .tile { background: var(--surface-1); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; }
+  .tile .k { font-size: 12px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.06em; }
+  .tile .v { font-size: 26px; font-weight: 600; letter-spacing: -0.02em; margin-top: 4px; font-variant-numeric: tabular-nums; }
+  .tile .n { font-size: 12px; color: var(--text-secondary); margin-top: 2px; }
+
+  .card { background: var(--surface-1); border: 1px solid var(--border); border-radius: 12px; padding: 18px; margin: 16px 0; }
+  .legend { display: flex; flex-wrap: wrap; gap: 14px; margin: 6px 0 10px; font-size: 13px; color: var(--text-secondary); }
+  .legend span { display: inline-flex; align-items: center; gap: 6px; }
+  .swatch { width: 10px; height: 10px; border-radius: 3px; display: inline-block; }
+
+  .chart { position: relative; }
+  .chart svg { display: block; width: 100%; height: auto; overflow: visible; }
+  .tip {
+    position: absolute; pointer-events: none; opacity: 0; transition: opacity .08s;
+    background: var(--surface-0); border: 1px solid var(--border); border-radius: 8px;
+    padding: 8px 10px; font-size: 12px; box-shadow: 0 4px 14px rgb(0 0 0 / 0.12);
+    white-space: nowrap; z-index: 4; color: var(--text-primary);
+  }
+  .tip b { font-weight: 600; }
+  .tip .row { display: flex; align-items: center; gap: 6px; margin-top: 3px; font-variant-numeric: tabular-nums; }
+
+  .scroll { overflow-x: auto; }
+  table { border-collapse: collapse; width: 100%; font-size: 13px; font-variant-numeric: tabular-nums; }
+  th, td { text-align: right; padding: 6px 10px; border-bottom: 1px solid var(--border); white-space: nowrap; }
+  th { color: var(--text-muted); font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: 0.05em; }
+  td:first-child, th:first-child { text-align: left; }
+  details > summary { cursor: pointer; color: var(--text-secondary); font-size: 13px; margin-top: 10px; }
+
+  .texts { display: grid; gap: 12px; }
+  .take { background: var(--surface-1); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; }
+  .take .n { font-size: 12px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 6px; }
+  .take p { margin: 0; white-space: pre-wrap; }
+  ins { background: color-mix(in srgb, var(--series-3) 22%, transparent); text-decoration: none; border-radius: 2px; }
+  del { background: color-mix(in srgb, var(--series-2) 22%, transparent); }
+  .sub-pair { color: var(--text-secondary); }
+  .sub-pair b { color: var(--text-primary); }
+</style>
+
+<div class="wrap">
+  <h1>__TITLE__</h1>
+  <p class="sub">__SUBTITLE__</p>
+  <p class="lede">__LEDE__</p>
+
+  <div class="tiles">__TILES__</div>
+
+  <h2>Drift</h2>
+  <p class="muted">Word error rate against the previous iteration (how fast the text is
+  still moving) and against the original score (how far it has travelled). A contracting
+  step-to-step curve is the signature of an attractor.</p>
+  <div class="card">
+    <div class="legend">
+      <span><i class="swatch" style="background:var(--series-1)"></i>vs. previous iteration</span>
+      <span><i class="swatch" style="background:var(--series-2)"></i>vs. original score</span>
+    </div>
+    <div class="chart" id="c-drift"></div>
+    <details><summary>Table view</summary><div class="scroll">__T_DRIFT__</div></details>
+  </div>
+
+  <h2>Retention and confidence</h2>
+  <p class="muted">Vocabulary overlap with the score, bag-of-words cosine against the
+  score, and the transcriber's own mean word confidence. All three share a 0–1 axis.
+  Confidence rising while overlap falls is the loop becoming fluent in its own text.</p>
+  <div class="card">
+    <div class="legend">
+      <span><i class="swatch" style="background:var(--series-1)"></i>vocabulary overlap</span>
+      <span><i class="swatch" style="background:var(--series-2)"></i>cosine vs. score</span>
+      <span><i class="swatch" style="background:var(--series-3)"></i>mean confidence</span>
+    </div>
+    <div class="chart" id="c-retain"></div>
+    <details><summary>Table view</summary><div class="scroll">__T_RETAIN__</div></details>
+  </div>
+
+  <h2>What the transcript cannot hold</h2>
+  <p class="muted">Token count and punctuation density per iteration — the only channels a
+  transcript has for phrasing. Their collapse is the performance being deleted.</p>
+  <div class="card">
+    <div class="legend">
+      <span><i class="swatch" style="background:var(--series-1)"></i>tokens</span>
+    </div>
+    <div class="chart" id="c-tokens"></div>
+    <div class="legend" style="margin-top:14px">
+      <span><i class="swatch" style="background:var(--series-2)"></i>punctuation marks per 100 tokens</span>
+    </div>
+    <div class="chart" id="c-punct"></div>
+    <details><summary>Table view</summary><div class="scroll">__T_SURFACE__</div></details>
+  </div>
+
+  <h2>Whose voice</h2>
+  <p class="muted">Share of the final text's tokens that the human wrote, versus tokens
+  the transcriber introduced through a mishearing and then kept.</p>
+  <div class="card">
+    <div class="legend">
+      <span><i class="swatch" style="background:var(--series-1)"></i>written by the performer</span>
+      <span><i class="swatch" style="background:var(--series-2)"></i>introduced by the transcriber</span>
+    </div>
+    <div class="chart" id="c-author"></div>
+  </div>
+  __AUTHOR_TABLES__
+
+  <h2>The ledger</h2>
+  <p class="muted">Every word-for-word rewrite, most frequent first. This is the
+  transcriber's edit history — the authorship nobody credits.</p>
+  <div class="card"><div class="scroll">__T_SUBS__</div></div>
+
+  <h2>The takes</h2>
+  <p class="muted">Each iteration in full. Insertions and deletions are marked
+  relative to the take before it.</p>
+  <div class="texts">__TAKES__</div>
+</div>
+
+<script>
+const DATA = __DATA__;
+
+const css = (n) => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const SVGNS = "http://www.w3.org/2000/svg";
+const el = (name, attrs = {}) => {
+  const n = document.createElementNS(SVGNS, name);
+  for (const [k, v] of Object.entries(attrs)) n.setAttribute(k, v);
+  return n;
+};
+const fmt = (v, d = 3) => (v === null || v === undefined || Number.isNaN(v)) ? "–" : (+v).toFixed(d);
+
+/* Line chart: thin 2px strokes, recessive grid, direct end-labels, crosshair
+   tooltip. One y-axis, always — series handed in must share a scale. */
+function lineChart(mount, { x, series, yMax, yMin = 0, yFmt = (v) => fmt(v, 2), xLabel = "iteration" }) {
+  const host = document.getElementById(mount);
+  if (!host) return;
+  host.innerHTML = "";
+  const W = 900, H = 300, m = { t: 14, r: 96, b: 34, l: 46 };
+  const iw = W - m.l - m.r, ih = H - m.t - m.b;
+  /* An explicit yMax is honoured exactly (a 0–1 metric must not get a 1.12
+     axis); an inferred one gets headroom so the top marker isn't clipped. */
+  const hi = Math.max(...series.flatMap(s => s.values.filter(v => v != null)), 0.0001);
+  const top = yMax ?? (hi * 1.12 || 1);
+  const sx = (i) => m.l + (x.length < 2 ? iw / 2 : (i / (x.length - 1)) * iw);
+  const sy = (v) => m.t + ih - ((v - yMin) / (top - yMin)) * ih;
+
+  const svg = el("svg", { viewBox: `0 0 ${W} ${H}`, role: "img" });
+
+  const ticks = 4;
+  for (let k = 0; k <= ticks; k++) {
+    const v = yMin + (top - yMin) * k / ticks;
+    svg.appendChild(el("line", {
+      x1: m.l, x2: m.l + iw, y1: sy(v), y2: sy(v),
+      stroke: css("--grid"), "stroke-width": 1,
+    }));
+    const t = el("text", {
+      x: m.l - 8, y: sy(v) + 4, "text-anchor": "end",
+      fill: css("--text-muted"), "font-size": 11,
+    });
+    t.textContent = yFmt(v);
+    svg.appendChild(t);
+  }
+
+  x.forEach((xv, i) => {
+    if (x.length > 16 && i % 2) return;
+    const t = el("text", {
+      x: sx(i), y: m.t + ih + 20, "text-anchor": "middle",
+      fill: css("--text-muted"), "font-size": 11,
+    });
+    t.textContent = xv;
+    svg.appendChild(t);
+  });
+  const xl = el("text", {
+    x: m.l + iw / 2, y: H - 2, "text-anchor": "middle",
+    fill: css("--text-muted"), "font-size": 11,
+  });
+  xl.textContent = xLabel;
+  svg.appendChild(xl);
+
+  const endLabels = [];
+  series.forEach((s) => {
+    const color = css(s.color);
+    const pts = s.values.map((v, i) => (v == null ? null : [sx(i), sy(v)])).filter(Boolean);
+    if (!pts.length) return;
+    svg.appendChild(el("path", {
+      d: pts.map((p, i) => `${i ? "L" : "M"}${p[0].toFixed(1)},${p[1].toFixed(1)}`).join(" "),
+      fill: "none", stroke: color, "stroke-width": 2,
+      "stroke-linecap": "round", "stroke-linejoin": "round",
+    }));
+    /* 2px surface ring so overlapping markers stay separable */
+    pts.forEach((p) => {
+      svg.appendChild(el("circle", {
+        cx: p[0], cy: p[1], r: 4, fill: color,
+        stroke: css("--surface-1"), "stroke-width": 2,
+      }));
+    });
+    const last = pts[pts.length - 1];
+    const lab = el("text", {
+      x: last[0] + 10, fill: color, "font-size": 12, "font-weight": 600,
+    });
+    lab.textContent = s.label;
+    endLabels.push({ node: lab, y: last[1] + 4 });
+    svg.appendChild(lab);
+  });
+
+  /* Series that finish close together would stack their direct labels on top
+     of each other, and the labels are load-bearing here (they are the relief
+     for the light-mode contrast warning). Space them out. */
+  endLabels.sort((a, b) => a.y - b.y);
+  const MIN_GAP = 15;
+  for (let k = 1; k < endLabels.length; k++) {
+    const gap = endLabels[k].y - endLabels[k - 1].y;
+    if (gap < MIN_GAP) endLabels[k].y = endLabels[k - 1].y + MIN_GAP;
+  }
+  const overflow = endLabels.length
+    ? Math.max(0, endLabels[endLabels.length - 1].y - (m.t + ih))
+    : 0;
+  endLabels.forEach((l) => l.node.setAttribute("y", l.y - overflow));
+
+  const cross = el("line", {
+    y1: m.t, y2: m.t + ih, stroke: css("--text-muted"),
+    "stroke-width": 1, "stroke-dasharray": "3 3", opacity: 0,
+  });
+  svg.appendChild(cross);
+
+  const tip = document.createElement("div");
+  tip.className = "tip";
+  host.appendChild(tip);
+
+  const hit = el("rect", { x: m.l, y: m.t, width: iw, height: ih, fill: "transparent" });
+  svg.appendChild(hit);
+  host.appendChild(svg);
+
+  const move = (ev) => {
+    const r = svg.getBoundingClientRect();
+    const px = ((ev.clientX - r.left) / r.width) * W;
+    let i = Math.round(((px - m.l) / iw) * (x.length - 1));
+    i = Math.max(0, Math.min(x.length - 1, i));
+    cross.setAttribute("x1", sx(i));
+    cross.setAttribute("x2", sx(i));
+    cross.setAttribute("opacity", 1);
+    tip.innerHTML = `<b>${xLabel} ${x[i]}</b>` + series.map((s) =>
+      `<div class="row"><i class="swatch" style="background:${css(s.color)}"></i>${s.label}: ${yFmt(s.values[i])}</div>`
+    ).join("");
+    tip.style.opacity = 1;
+    const left = (sx(i) / W) * r.width;
+    tip.style.left = Math.min(Math.max(left + 14, 4), r.width - tip.offsetWidth - 4) + "px";
+    tip.style.top = "8px";
+  };
+  svg.addEventListener("pointermove", move);
+  svg.addEventListener("pointerleave", () => {
+    tip.style.opacity = 0;
+    cross.setAttribute("opacity", 0);
+  });
+}
+
+/* Single stacked bar: two segments, 2px surface gap between fills, 4px rounded
+   data-ends at the outer edges only. */
+function stackedBar(mount, { segments }) {
+  const host = document.getElementById(mount);
+  if (!host) return;
+  host.innerHTML = "";
+  const W = 900, H = 96, m = { l: 4, r: 4, t: 18, b: 30 };
+  const iw = W - m.l - m.r, bh = H - m.t - m.b;
+  const total = segments.reduce((a, s) => a + s.value, 0) || 1;
+  const svg = el("svg", { viewBox: `0 0 ${W} ${H}`, role: "img" });
+
+  let cursor = m.l;
+  segments.forEach((s, k) => {
+    const raw = (s.value / total) * iw;
+    const w = Math.max(0, raw - (k < segments.length - 1 ? 2 : 0)); /* 2px surface gap */
+    if (w > 0) {
+      svg.appendChild(el("rect", {
+        x: cursor, y: m.t, width: w, height: bh,
+        rx: 4, fill: css(s.color),
+      }));
+    }
+    if (raw > 74) {
+      const t = el("text", {
+        x: cursor + 12, y: m.t + bh / 2 + 5,
+        fill: css("--surface-1"), "font-size": 13, "font-weight": 600,
+      });
+      t.textContent = `${(100 * s.value / total).toFixed(1)}%`;
+      svg.appendChild(t);
+      const l = el("text", {
+        x: cursor, y: m.t - 6, fill: css("--text-secondary"), "font-size": 12,
+      });
+      l.textContent = s.label;
+      svg.appendChild(l);
+    }
+    cursor += raw;
+  });
+  const cap = el("text", {
+    x: m.l, y: H - 8, fill: css("--text-muted"), "font-size": 11,
+  });
+  cap.textContent = `share of the ${segments.reduce((a, s) => a + s.value, 0)} tokens in the final text`;
+  svg.appendChild(cap);
+  host.appendChild(svg);
+}
+
+function draw() {
+  lineChart("c-drift", {
+    x: DATA.iters,
+    series: [
+      { label: "vs. previous", color: "--series-1", values: DATA.wer_vs_prev },
+      { label: "vs. score", color: "--series-2", values: DATA.wer_vs_seed },
+    ],
+    yFmt: (v) => v.toFixed(2),
+    xLabel: "iteration",
+  });
+  lineChart("c-retain", {
+    x: DATA.iters,
+    yMax: 1,
+    series: [
+      { label: "overlap", color: "--series-1", values: DATA.jaccard_vs_seed },
+      { label: "cosine", color: "--series-2", values: DATA.cosine_vs_seed },
+      { label: "confidence", color: "--series-3", values: DATA.mean_confidence },
+    ],
+    yFmt: (v) => v.toFixed(2),
+  });
+  lineChart("c-tokens", {
+    x: DATA.iters,
+    series: [{ label: "tokens", color: "--series-1", values: DATA.tokens }],
+    yFmt: (v) => Math.round(v).toString(),
+  });
+  lineChart("c-punct", {
+    x: DATA.iters,
+    series: [{ label: "punct/100", color: "--series-2", values: DATA.punct }],
+    yFmt: (v) => v.toFixed(1),
+  });
+  stackedBar("c-author", {
+    segments: [
+      { label: "performer", color: "--series-1", value: DATA.human_tokens },
+      { label: "transcriber", color: "--series-2", value: DATA.machine_tokens },
+    ],
+  });
+}
+
+draw();
+/* Redraw on theme change so the marks re-read the swapped tokens. */
+if (window.matchMedia) {
+  window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", draw);
+}
+new MutationObserver(draw).observe(document.documentElement, {
+  attributes: true, attributeFilter: ["data-theme"],
+});
+</script>
+"""
+
+
+def _esc(s: str) -> str:
+    return html.escape(s, quote=False)
+
+
+def _tile(k: str, v: str, note: str = "") -> str:
+    n = f'<div class="n">{_esc(note)}</div>' if note else ""
+    return f'<div class="tile"><div class="k">{_esc(k)}</div><div class="v">{_esc(v)}</div>{n}</div>'
+
+
+def _table(headers: list[str], rows: list[list[str]]) -> str:
+    head = "".join(f"<th>{_esc(h)}</th>" for h in headers)
+    body = "".join(
+        "<tr>" + "".join(f"<td>{c}</td>" for c in row) + "</tr>" for row in rows
+    )
+    return f"<table><thead><tr>{head}</tr></thead><tbody>{body}</tbody></table>"
+
+
+def _diff_html(prev: str, cur: str) -> str:
+    """Word-level diff of two takes, over the same normalised token streams the
+    metrics are computed on, so what you read matches what was counted."""
+    import difflib
+
+    a, b = M.words(prev), M.words(cur)
+    out: list[str] = []
+    sm = difflib.SequenceMatcher(a=a, b=b, autojunk=False)
+    for tag, i1, i2, j1, j2 in sm.get_opcodes():
+        if tag == "equal":
+            out.append(_esc(" ".join(b[j1:j2])))
+        elif tag == "delete":
+            out.append(f"<del>{_esc(' '.join(a[i1:i2]))}</del>")
+        elif tag == "insert":
+            out.append(f"<ins>{_esc(' '.join(b[j1:j2]))}</ins>")
+        else:
+            out.append(f"<del>{_esc(' '.join(a[i1:i2]))}</del> "
+                       f"<ins>{_esc(' '.join(b[j1:j2]))}</ins>")
+    return " ".join(out)
+
+
+def build_html(summary: dict, texts: list[str], *, title: str | None = None) -> str:
+    s = summary
+    series = s["series"]
+    n = len(series["wer_vs_prev"])
+    iters = list(range(1, n + 1))
+    conv = s.get("convergence", {})
+    auth = s.get("authorship", {})
+
+    final_tokens = len(M.words(s.get("final_text", "")))
+    machine_share = auth.get("machine_share") or 0.0
+    machine_tokens = int(round(machine_share * final_tokens))
+    human_tokens = final_tokens - machine_tokens
+
+    status = conv.get("status", "open")
+    status_note = {
+        "fixed_point": f"identical from iteration {conv.get('fixed_point_at')}",
+        "cycle": (f"period {conv.get('cycle', {}).get('period')} orbit"
+                  if conv.get("cycle") else "orbiting"),
+        "open": "still drifting at the last take",
+    }[status]
+
+    tiles = "".join([
+        _tile("iterations", str(s.get("iterations_run", n)), f"of {s.get('iterations_requested', n)} requested"),
+        _tile("drift from score", f"{s.get('total_drift_from_seed', float('nan')):.3f}", "word error rate, final vs. seed"),
+        _tile("last step", f"{s.get('final_delta', float('nan')):.3f}", "WER between the last two takes"),
+        _tile("outcome", status.replace("_", " "), status_note),
+        _tile("transcriber's share", f"{100 * machine_share:.1f}%", f"{machine_tokens} of {final_tokens} final tokens"),
+        _tile("score words lost", str(auth.get("seed_words_lost", 0)), "never heard again"),
+    ])
+
+    drift_rows = [
+        [str(i), f"{series['wer_vs_prev'][k]:.4f}", f"{series['wer_vs_seed'][k]:.4f}",
+         f"{series['cer_vs_seed'][k]:.4f}"]
+        for k, i in enumerate(iters)
+    ]
+    retain_rows = [
+        [str(i), f"{series['jaccard_vs_seed'][k]:.4f}", f"{series['cosine_vs_seed'][k]:.4f}",
+         f"{series['mean_confidence'][k]:.4f}"]
+        for k, i in enumerate(iters)
+    ]
+    surface_rows = [
+        [str(i), str(series["tokens"][k]), f"{series['type_token_ratio'][k]:.3f}",
+         f"{series['punct_per_100_tokens'][k]:.2f}", f"{series['audio_seconds'][k]:.1f}"]
+        for k, i in enumerate(iters)
+    ]
+    sub_rows = [
+        [f'<span class="sub-pair"><b>{_esc(e["heard_as"])}</b> &larr; {_esc(e["instead_of"])}</span>',
+         str(e["count"])]
+        for e in s.get("substitution_ledger", [])[:80]
+    ]
+
+    author_tables = ""
+    mw = auth.get("machine_words") or []
+    lost = auth.get("seed_words_lost_list") or []
+    if mw or lost:
+        blocks = []
+        if mw:
+            blocks.append(
+                "<details open><summary>Words the transcriber introduced and kept</summary>"
+                '<div class="scroll">'
+                + _table(["word", "entered at", "survived"],
+                         [[_esc(w["word"]), str(w["entered_at"]), str(w["survived_iterations"])]
+                          for w in mw[:60]])
+                + "</div></details>"
+            )
+        if lost:
+            blocks.append(
+                "<details><summary>Words from the score that never came back</summary>"
+                f'<p class="muted">{_esc(", ".join(lost[:120]))}</p></details>'
+            )
+        author_tables = '<div class="card">' + "".join(blocks) + "</div>"
+
+    takes = []
+    for i, t in enumerate(texts):
+        label = "00 &middot; the score" if i == 0 else f"{i:02d}"
+        body = _esc(t) if i == 0 else _diff_html(texts[i - 1], t)
+        takes.append(f'<div class="take"><div class="n">{label}</div><p>{body}</p></div>')
+
+    data = {
+        "iters": iters,
+        "wer_vs_prev": series["wer_vs_prev"],
+        "wer_vs_seed": series["wer_vs_seed"],
+        "jaccard_vs_seed": series["jaccard_vs_seed"],
+        "cosine_vs_seed": series["cosine_vs_seed"],
+        "mean_confidence": [None if x != x else x for x in series["mean_confidence"]],
+        "tokens": series["tokens"],
+        "punct": series["punct_per_100_tokens"],
+        "human_tokens": human_tokens,
+        "machine_tokens": machine_tokens,
+    }
+
+    lede = (
+        "A spoken-word score is performed, transcribed, and the transcript becomes the "
+        "score for the next performance. Nothing is edited by hand. Every difference "
+        "below was introduced by the speech recogniser — mishearings, dropped phrasing, "
+        "silent grammatical corrections — accumulating across iterations the way a "
+        "generative image loop collapses into its own house style. The question the "
+        "numbers are asked to answer is not how wrong the machine is. It is whose text "
+        "this ends up being."
+    )
+
+    subtitle = (
+        f"{s.get('voice')} performing &middot; {s.get('listen_model')} listening &middot; "
+        f"smart_format={'on' if s.get('smart_format') else 'off'}"
+        + (" &middot; room on" if s.get("room_active") else "")
+    )
+
+    out = _TEMPLATE
+    for token, value in [
+        ("__TITLE__", _esc(title or "The Transcription Gap")),
+        ("__SUBTITLE__", subtitle),
+        ("__LEDE__", _esc(lede)),
+        ("__TILES__", tiles),
+        ("__T_DRIFT__", _table(["iter", "WER vs prev", "WER vs score", "CER vs score"], drift_rows)),
+        ("__T_RETAIN__", _table(["iter", "overlap", "cosine", "confidence"], retain_rows)),
+        ("__T_SURFACE__", _table(["iter", "tokens", "TTR", "punct/100", "audio s"], surface_rows)),
+        # Headers go through html escaping, so use the character, not the entity.
+        ("__T_SUBS__", _table(["heard as ← instead of", "count"], sub_rows) if sub_rows
+         else '<p class="muted">No word-level substitutions recorded.</p>'),
+        ("__AUTHOR_TABLES__", author_tables),
+        ("__TAKES__", "".join(takes)),
+        ("__DATA__", json.dumps(data)),
+    ]:
+        out = out.replace(token, value)
+    return out
+
+
+def write_report(out_dir: str | Path, *, title: str | None = None) -> Path:
+    """Render report.html from a finished run directory."""
+    out = Path(out_dir)
+    summary = json.loads((out / "summary.json").read_text(encoding="utf-8"))
+    texts = [
+        p.read_text(encoding="utf-8").strip()
+        for p in sorted((out / "iterations").glob("*.txt"))
+    ]
+    path = out / "report.html"
+    path.write_text(build_html(summary, texts, title=title), encoding="utf-8")
+    return path
