@@ -295,7 +295,7 @@ def test_full_offline_run_produces_every_artifact():
         assert len(reloaded.iterations) == summary["iterations_run"] + 1
         again = reloaded.summarize()
         assert again["iterations_run"] == summary["iterations_run"]
-        # billable totals must be recoverable from disk, not just live state
+        # billable totals must be recoverable from disk as well as from live state
         assert again["cost"]["tts_chars"] == summary["cost"]["tts_chars"]
         assert abs(again["cost"]["stt_seconds"] - summary["cost"]["stt_seconds"]) < 0.2
 

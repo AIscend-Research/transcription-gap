@@ -3,7 +3,7 @@
 A single run tells you that a text drifted. The claim about an *attractor*
 needs more than one run: if several different scores, put through the same
 transcriber, end up closer to each other than they started, that shared
-destination is the machine's house style — the speech-domain analogue of the
+destination is the machine's house style, the speech-domain analogue of the
 published image-generation convergence result.
 """
 
@@ -116,7 +116,7 @@ def _fmt(v, d=3) -> str:
 
 
 def markdown_report(runs: list[dict]) -> str:
-    lines: list[str] = ["# Transcription gap — cross-run analysis", ""]
+    lines: list[str] = ["# Transcription gap: cross-run analysis", ""]
     lines.append(f"{len(runs)} run(s).")
     lines.append("")
 
@@ -150,7 +150,7 @@ def markdown_report(runs: list[dict]) -> str:
                      f"{_fmt(mc['seed_pairwise_cosine'])} → {_fmt(mc['final_pairwise_cosine'])}")
         lines.append(f"- words shared by every final text but present in no seed "
                      f"({mc['attractor_vocab_size']}): "
-                     f"{', '.join(mc['attractor_vocab'][:40]) or '—'}")
+                     f"{', '.join(mc['attractor_vocab'][:40]) or 'none'}")
     lines.append("")
 
     lines.append("## Most persistent rewrites")

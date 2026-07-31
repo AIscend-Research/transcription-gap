@@ -153,7 +153,7 @@ _TEMPLATE = r"""
   </div>
 
   <h2>What the transcript cannot hold</h2>
-  <p class="muted">Token count and punctuation density per iteration — the only channels a
+  <p class="muted">Token count and punctuation density per iteration, the only channels a
   transcript has for phrasing. Their collapse is the performance being deleted.</p>
   <div class="card">
     <div class="legend">
@@ -181,7 +181,7 @@ _TEMPLATE = r"""
 
   <h2>The ledger</h2>
   <p class="muted">Every word-for-word rewrite, most frequent first. This is the
-  transcriber's edit history — the authorship nobody credits.</p>
+  transcriber's edit history, the authorship nobody credits.</p>
   <div class="card"><div class="scroll">__T_SUBS__</div></div>
 
   <h2>The takes</h2>
@@ -203,7 +203,7 @@ const el = (name, attrs = {}) => {
 const fmt = (v, d = 3) => (v === null || v === undefined || Number.isNaN(v)) ? "–" : (+v).toFixed(d);
 
 /* Line chart: thin 2px strokes, recessive grid, direct end-labels, crosshair
-   tooltip. One y-axis, always — series handed in must share a scale. */
+   tooltip. One y-axis, always: series handed in must share a scale. */
 function lineChart(mount, { x, series, yMax, yMin = 0, yFmt = (v) => fmt(v, 2), xLabel = "iteration" }) {
   const host = document.getElementById(mount);
   if (!host) return;
@@ -553,8 +553,8 @@ def build_html(summary: dict, texts: list[str], *, title: str | None = None) -> 
     lede = (
         "A spoken-word score is performed, transcribed, and the transcript becomes the "
         "score for the next performance. Nothing is edited by hand. Every difference "
-        "below was introduced by the speech recogniser — mishearings, dropped phrasing, "
-        "silent grammatical corrections — accumulating across iterations the way a "
+        "below was introduced by the speech recogniser: mishearings, dropped phrasing, "
+        "silent grammatical corrections, accumulating across iterations the way a "
         "generative image loop collapses into its own house style. The question the "
         "numbers are asked to answer is not how wrong the machine is. It is whose text "
         "this ends up being."
@@ -575,7 +575,7 @@ def build_html(summary: dict, texts: list[str], *, title: str | None = None) -> 
         ("__T_DRIFT__", _table(["iter", "WER vs prev", "WER vs score", "CER vs score"], drift_rows)),
         ("__T_RETAIN__", _table(["iter", "overlap", "cosine", "confidence"], retain_rows)),
         ("__T_SURFACE__", _table(["iter", "tokens", "TTR", "punct/100", "audio s"], surface_rows)),
-        # Headers go through html escaping, so use the character, not the entity.
+        # Headers go through html escaping, so use the character rather than the entity.
         ("__T_SUBS__", _table(["heard as ← instead of", "count"], sub_rows) if sub_rows
          else '<p class="muted">No word-level substitutions recorded.</p>'),
         ("__AUTHOR_TABLES__", author_tables),
