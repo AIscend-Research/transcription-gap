@@ -1,0 +1,22 @@
+Transcription Gap validation summary
+
+Completed in this worktree on 2026-08-08.
+
+Validation results:
+- pytest -q: 38 passed in 0.38s
+- python -m transcription_gap estimate -n 25: passed
+- python -m transcription_gap run --offline -n 10: passed
+- python -m transcription_gap sweep --offline --seeds "seeds/*.txt" -n 10: passed
+- python -m transcription_gap run --seed seeds/lucier.txt -n 25: passed
+- Python library API example: passed
+
+Evidence files in the local worktree:
+- outputs/test-results.txt
+- outputs/completion-log.txt
+- outputs/run/summary.json
+- outputs/sweep/analysis.md
+- outputs/library-check/summary.json
+
+Notes:
+- These output files are generated runtime artifacts and are intentionally kept out of the repo history by .gitignore.
+- This summary file is meant to make the work visible in the repo checkout without committing the generated files themselves.
