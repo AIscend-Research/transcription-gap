@@ -1,0 +1,322 @@
+{
+  "seed_path": "seeds/verse.txt",
+  "iterations_run": 10,
+  "iterations_requested": 10,
+  "elapsed_seconds": 1.8558628559112549,
+  "voice": "aura-2-thalia-en",
+  "listen_model": "nova-3",
+  "smart_format": true,
+  "room_active": false,
+  "convergence": {
+    "status": "open",
+    "fixed_point_at": null,
+    "cycle": null,
+    "deltas": [
+      0.02830188679245283,
+      0.05660377358490566,
+      0.018867924528301886,
+      0.0380952380952381,
+      0.02857142857142857,
+      0.01904761904761905,
+      0.038834951456310676,
+      0.0392156862745098,
+      0.01,
+      0.05
+    ],
+    "early_mean_delta": 0.03459119496855346,
+    "late_mean_delta": 0.0330718954248366,
+    "decay_ratio": 0.956078431372549,
+    "contracting": true,
+    "projected_steps_to_fixed_point": 545.2656791365325
+  },
+  "authorship": {
+    "machine_share": 0.1111111111111111,
+    "human_share": 0.8888888888888888,
+    "machine_vocab_size": 11,
+    "seed_words_lost": 10,
+    "seed_words_lost_list": [
+      "again",
+      "here",
+      "machine",
+      "never",
+      "plainer",
+      "room",
+      "settle",
+      "smooth",
+      "taken",
+      "there"
+    ],
+    "machine_words": [
+      {
+        "word": "machines",
+        "entered_at": 1,
+        "survived_iterations": 9
+      },
+      {
+        "word": "smoothed",
+        "entered_at": 1,
+        "survived_iterations": 9
+      },
+      {
+        "word": "gain",
+        "entered_at": 2,
+        "survived_iterations": 8
+      },
+      {
+        "word": "rheum",
+        "entered_at": 2,
+        "survived_iterations": 8
+      },
+      {
+        "word": "their",
+        "entered_at": 2,
+        "survived_iterations": 8
+      },
+      {
+        "word": "who's",
+        "entered_at": 3,
+        "survived_iterations": 7
+      },
+      {
+        "word": "sette",
+        "entered_at": 4,
+        "survived_iterations": 6
+      },
+      {
+        "word": "wantd",
+        "entered_at": 4,
+        "survived_iterations": 6
+      },
+      {
+        "word": "plaier",
+        "entered_at": 5,
+        "survived_iterations": 5
+      },
+      {
+        "word": "nevr",
+        "entered_at": 7,
+        "survived_iterations": 3
+      },
+      {
+        "word": "tken",
+        "entered_at": 8,
+        "survived_iterations": 2
+      }
+    ]
+  },
+  "cost": {
+    "tts_chars": 5103,
+    "stt_seconds": 422.6,
+    "tts_usd": 0.1531,
+    "stt_usd": 0.0542,
+    "total_usd": 0.2073
+  },
+  "series": {
+    "wer_vs_prev": [
+      0.02830188679245283,
+      0.05660377358490566,
+      0.018867924528301886,
+      0.0380952380952381,
+      0.02857142857142857,
+      0.01904761904761905,
+      0.038834951456310676,
+      0.0392156862745098,
+      0.01,
+      0.05
+    ],
+    "wer_vs_seed": [
+      0.02830188679245283,
+      0.0660377358490566,
+      0.08490566037735849,
+      0.08490566037735849,
+      0.09433962264150944,
+      0.11320754716981132,
+      0.1509433962264151,
+      0.16981132075471697,
+      0.1792452830188679,
+      0.20754716981132076
+    ],
+    "cer_vs_seed": [
+      0.009652509652509652,
+      0.023166023166023165,
+      0.032818532818532815,
+      0.02895752895752896,
+      0.032818532818532815,
+      0.04633204633204633,
+      0.059845559845559844,
+      0.06563706563706563,
+      0.0694980694980695,
+      0.08108108108108109
+    ],
+    "jaccard_vs_seed": [
+      0.9322033898305084,
+      0.8387096774193549,
+      0.8253968253968254,
+      0.8253968253968254,
+      0.8125,
+      0.8125,
+      0.7846153846153846,
+      0.7575757575757576,
+      0.7424242424242424,
+      0.6911764705882353
+    ],
+    "cosine_vs_seed": [
+      0.9927184466019418,
+      0.9853775774353286,
+      0.9817072006824922,
+      0.9817072006824922,
+      0.9792320835525051,
+      0.9757541399049835,
+      0.9677710070316446,
+      0.9561520175133315,
+      0.947615055397547,
+      0.9330773865530463
+    ],
+    "mean_confidence": [
+      0.9631472797875849,
+      0.9571861966512335,
+      0.9683782445093381,
+      0.957530145527746,
+      0.9579350447604575,
+      0.97,
+      0.9619800200470208,
+      0.9629265981471664,
+      0.9681955782917677,
+      0.9593037865351709
+    ],
+    "tokens": [
+      106,
+      106,
+      105,
+      105,
+      105,
+      103,
+      102,
+      100,
+      100,
+      99
+    ],
+    "type_token_ratio": [
+      0.5377358490566038,
+      0.5377358490566038,
+      0.5523809523809524,
+      0.5523809523809524,
+      0.5619047619047619,
+      0.5728155339805825,
+      0.5784313725490197,
+      0.59,
+      0.58,
+      0.5858585858585859
+    ],
+    "punct_per_100_tokens": [
+      14.150943396226415,
+      14.150943396226415,
+      15.238095238095237,
+      14.285714285714286,
+      15.238095238095237,
+      15.533980582524272,
+      15.686274509803921,
+      16.0,
+      17.0,
+      16.161616161616163
+    ],
+    "audio_seconds": [
+      43.109208333333335,
+      43.109208333333335,
+      43.109208333333335,
+      42.724583333333335,
+      42.724583333333335,
+      42.724583333333335,
+      41.955375,
+      41.57075,
+      40.8015,
+      40.8015
+    ]
+  },
+  "substitution_ledger": [
+    {
+      "heard_as": "hear",
+      "instead_of": "here",
+      "count": 4
+    },
+    {
+      "heard_as": "who's",
+      "instead_of": "whose",
+      "count": 3
+    },
+    {
+      "heard_as": "here",
+      "instead_of": "hear",
+      "count": 2
+    },
+    {
+      "heard_as": "machines",
+      "instead_of": "machine",
+      "count": 2
+    },
+    {
+      "heard_as": "their",
+      "instead_of": "there",
+      "count": 2
+    },
+    {
+      "heard_as": "whose",
+      "instead_of": "who's",
+      "count": 2
+    },
+    {
+      "heard_as": "smoothed",
+      "instead_of": "smooth",
+      "count": 1
+    },
+    {
+      "heard_as": "gain",
+      "instead_of": "again",
+      "count": 1
+    },
+    {
+      "heard_as": "rheum",
+      "instead_of": "room",
+      "count": 1
+    },
+    {
+      "heard_as": "sette",
+      "instead_of": "settle",
+      "count": 1
+    },
+    {
+      "heard_as": "wantd",
+      "instead_of": "wanted",
+      "count": 1
+    },
+    {
+      "heard_as": "there",
+      "instead_of": "their",
+      "count": 1
+    },
+    {
+      "heard_as": "machine",
+      "instead_of": "machines",
+      "count": 1
+    },
+    {
+      "heard_as": "plaier",
+      "instead_of": "plainer",
+      "count": 1
+    },
+    {
+      "heard_as": "nevr",
+      "instead_of": "never",
+      "count": 1
+    },
+    {
+      "heard_as": "tken",
+      "instead_of": "taken",
+      "count": 1
+    }
+  ],
+  "seed_text": "What I said and what was written\nare not the same and never were.\nWhat I meant and what was taken\nare the two halves of one word.\n\nHear it once and hear it doubled,\nhere and hear and here again,\nwhose is whose the machine has settled,\nand it will not settle twice the same.\n\nEvery pass it makes it plainer.\nEvery pass it takes a line.\nWhat is left is smooth and certain\nand it does not sound like mine.\n\nSay the word until it isn't.\nSay the room until it's air.\nWhat remains is what it wanted,\nand it wanted me not there.",
+  "final_text": "What i said and what was written are not the same and nevr were. What i meant and what was tken are the two halves of one word. Hear it once and hear doubled, hear hear and hear a gain, who's is whose the machines has settled, and will not sette twice the same. Every pass makes plaier. Every pass it takes a line. What left smoothed certain and it does not sound like mine. Say the word until it isn't. Say the rheum until it's air. What remains is what it wanted, and it wantd me not their.",
+  "total_drift_from_seed": 0.20754716981132076,
+  "final_delta": 0.05
+}

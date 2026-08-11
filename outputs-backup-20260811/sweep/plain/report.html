@@ -1,0 +1,403 @@
+
+<style>
+  :root {
+    color-scheme: light;
+    --surface-0: #ffffff;
+    --surface-1: #fcfcfb;
+    --surface-2: #f4f4f2;
+    --border: #e2e2dd;
+    --text-primary: #0b0b0b;
+    --text-secondary: #52514e;
+    --text-muted: #7d7c76;
+    --series-1: #2a78d6;
+    --series-2: #eb6834;
+    --series-3: #1baf7a;
+    --grid: #e8e8e3;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:where(:not([data-theme="light"])) {
+      color-scheme: dark;
+      --surface-0: #121211;
+      --surface-1: #1a1a19;
+      --surface-2: #232322;
+      --border: #35352f;
+      --text-primary: #ffffff;
+      --text-secondary: #c3c2b7;
+      --text-muted: #8f8e85;
+      --series-1: #3987e5;
+      --series-2: #d95926;
+      --series-3: #199e70;
+      --grid: #2b2b28;
+    }
+  }
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+    --surface-0: #121211;
+    --surface-1: #1a1a19;
+    --surface-2: #232322;
+    --border: #35352f;
+    --text-primary: #ffffff;
+    --text-secondary: #c3c2b7;
+    --text-muted: #8f8e85;
+    --series-1: #3987e5;
+    --series-2: #d95926;
+    --series-3: #199e70;
+    --grid: #2b2b28;
+  }
+
+  body {
+    margin: 0;
+    background: var(--surface-0);
+    color: var(--text-primary);
+    font: 15px/1.6 ui-sans-serif, -apple-system, "Segoe UI", Roboto, sans-serif;
+  }
+  .wrap { max-width: 980px; margin: 0 auto; padding: 48px 24px 96px; }
+  h1 { font-size: 30px; line-height: 1.2; margin: 0 0 6px; letter-spacing: -0.02em; }
+  h2 { font-size: 19px; margin: 48px 0 4px; letter-spacing: -0.01em; }
+  h3 { font-size: 14px; margin: 0 0 2px; font-weight: 600; }
+  .sub { color: var(--text-secondary); margin: 0 0 8px; }
+  .muted { color: var(--text-muted); font-size: 13px; }
+  .lede { color: var(--text-secondary); max-width: 68ch; }
+
+  .tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; margin: 28px 0 8px; }
+  .tile { background: var(--surface-1); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; }
+  .tile .k { font-size: 12px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.06em; }
+  .tile .v { font-size: 26px; font-weight: 600; letter-spacing: -0.02em; margin-top: 4px; font-variant-numeric: tabular-nums; }
+  .tile .n { font-size: 12px; color: var(--text-secondary); margin-top: 2px; }
+
+  .card { background: var(--surface-1); border: 1px solid var(--border); border-radius: 12px; padding: 18px; margin: 16px 0; }
+  .legend { display: flex; flex-wrap: wrap; gap: 14px; margin: 6px 0 10px; font-size: 13px; color: var(--text-secondary); }
+  .legend span { display: inline-flex; align-items: center; gap: 6px; }
+  .swatch { width: 10px; height: 10px; border-radius: 3px; display: inline-block; }
+
+  .chart { position: relative; }
+  .chart svg { display: block; width: 100%; height: auto; overflow: visible; }
+  .tip {
+    position: absolute; pointer-events: none; opacity: 0; transition: opacity .08s;
+    background: var(--surface-0); border: 1px solid var(--border); border-radius: 8px;
+    padding: 8px 10px; font-size: 12px; box-shadow: 0 4px 14px rgb(0 0 0 / 0.12);
+    white-space: nowrap; z-index: 4; color: var(--text-primary);
+  }
+  .tip b { font-weight: 600; }
+  .tip .row { display: flex; align-items: center; gap: 6px; margin-top: 3px; font-variant-numeric: tabular-nums; }
+
+  .scroll { overflow-x: auto; }
+  table { border-collapse: collapse; width: 100%; font-size: 13px; font-variant-numeric: tabular-nums; }
+  th, td { text-align: right; padding: 6px 10px; border-bottom: 1px solid var(--border); white-space: nowrap; }
+  th { color: var(--text-muted); font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: 0.05em; }
+  td:first-child, th:first-child { text-align: left; }
+  details > summary { cursor: pointer; color: var(--text-secondary); font-size: 13px; margin-top: 10px; }
+
+  .texts { display: grid; gap: 12px; }
+  .take { background: var(--surface-1); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; }
+  .take .n { font-size: 12px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 6px; }
+  .take p { margin: 0; white-space: pre-wrap; }
+  ins { background: color-mix(in srgb, var(--series-3) 22%, transparent); text-decoration: none; border-radius: 2px; }
+  del { background: color-mix(in srgb, var(--series-2) 22%, transparent); }
+  .sub-pair { color: var(--text-secondary); }
+  .sub-pair b { color: var(--text-primary); }
+</style>
+
+<div class="wrap">
+  <h1>The Transcription Gap</h1>
+  <p class="sub">aura-2-thalia-en performing &middot; nova-3 listening &middot; smart_format=on</p>
+  <p class="lede">A spoken-word score is performed, transcribed, and the transcript becomes the score for the next performance. Nothing is edited by hand. Every difference below was introduced by the speech recogniser: mishearings, dropped phrasing, silent grammatical corrections, accumulating across iterations the way a generative image loop collapses into its own house style. The question the numbers are asked to answer is not how wrong the machine is. It is whose text this ends up being.</p>
+
+  <div class="tiles"><div class="tile"><div class="k">iterations</div><div class="v">5</div><div class="n">of 25 requested</div></div><div class="tile"><div class="k">drift from score</div><div class="v">0.015</div><div class="n">word error rate, final vs. seed</div></div><div class="tile"><div class="k">last step</div><div class="v">0.000</div><div class="n">WER between the last two takes</div></div><div class="tile"><div class="k">outcome</div><div class="v">fixed point</div><div class="n">identical from iteration 4</div></div><div class="tile"><div class="k">transcriber's share</div><div class="v">0.7%</div><div class="n">1 of 134 final tokens</div></div><div class="tile"><div class="k">score words lost</div><div class="v">1</div><div class="n">never heard again</div></div></div>
+
+  <h2>Drift</h2>
+  <p class="muted">Word error rate against the previous iteration (how fast the text is
+  still moving) and against the original score (how far it has travelled). A contracting
+  step-to-step curve is the signature of an attractor.</p>
+  <div class="card">
+    <div class="legend">
+      <span><i class="swatch" style="background:var(--series-1)"></i>vs. previous iteration</span>
+      <span><i class="swatch" style="background:var(--series-2)"></i>vs. original score</span>
+    </div>
+    <div class="chart" id="c-drift"></div>
+    <details><summary>Table view</summary><div class="scroll"><table><thead><tr><th>iter</th><th>WER vs prev</th><th>WER vs score</th><th>CER vs score</th></tr></thead><tbody><tr><td>1</td><td>0.0149</td><td>0.0149</td><td>0.0167</td></tr><tr><td>2</td><td>0.0000</td><td>0.0149</td><td>0.0182</td></tr><tr><td>3</td><td>0.0000</td><td>0.0149</td><td>0.0197</td></tr><tr><td>4</td><td>0.0000</td><td>0.0149</td><td>0.0197</td></tr><tr><td>5</td><td>0.0000</td><td>0.0149</td><td>0.0197</td></tr></tbody></table></div></details>
+  </div>
+
+  <h2>Retention and confidence</h2>
+  <p class="muted">Vocabulary overlap with the score, bag-of-words cosine against the
+  score, and the transcriber's own mean word confidence. All three share a 0–1 axis.
+  Confidence rising while overlap falls is the loop becoming fluent in its own text.</p>
+  <div class="card">
+    <div class="legend">
+      <span><i class="swatch" style="background:var(--series-1)"></i>vocabulary overlap</span>
+      <span><i class="swatch" style="background:var(--series-2)"></i>cosine vs. score</span>
+      <span><i class="swatch" style="background:var(--series-3)"></i>mean confidence</span>
+    </div>
+    <div class="chart" id="c-retain"></div>
+    <details><summary>Table view</summary><div class="scroll"><table><thead><tr><th>iter</th><th>overlap</th><th>cosine</th><th>confidence</th></tr></thead><tbody><tr><td>1</td><td>0.9762</td><td>0.9956</td><td>0.9808</td></tr><tr><td>2</td><td>0.9762</td><td>0.9956</td><td>0.9911</td></tr><tr><td>3</td><td>0.9762</td><td>0.9956</td><td>0.9885</td></tr><tr><td>4</td><td>0.9762</td><td>0.9956</td><td>0.9913</td></tr><tr><td>5</td><td>0.9762</td><td>0.9956</td><td>0.9924</td></tr></tbody></table></div></details>
+  </div>
+
+  <h2>What the transcript cannot hold</h2>
+  <p class="muted">Token count and punctuation density per iteration, the only channels a
+  transcript has for phrasing. Their collapse is the performance being deleted.</p>
+  <div class="card">
+    <div class="legend">
+      <span><i class="swatch" style="background:var(--series-1)"></i>tokens</span>
+    </div>
+    <div class="chart" id="c-tokens"></div>
+    <div class="legend" style="margin-top:14px">
+      <span><i class="swatch" style="background:var(--series-2)"></i>punctuation marks per 100 tokens</span>
+    </div>
+    <div class="chart" id="c-punct"></div>
+    <details><summary>Table view</summary><div class="scroll"><table><thead><tr><th>iter</th><th>tokens</th><th>TTR</th><th>punct/100</th><th>audio s</th></tr></thead><tbody><tr><td>1</td><td>134</td><td>0.619</td><td>19.40</td><td>47.0</td></tr><tr><td>2</td><td>134</td><td>0.619</td><td>20.15</td><td>47.8</td></tr><tr><td>3</td><td>134</td><td>0.619</td><td>19.40</td><td>47.9</td></tr><tr><td>4</td><td>134</td><td>0.619</td><td>19.40</td><td>45.9</td></tr><tr><td>5</td><td>134</td><td>0.619</td><td>19.40</td><td>45.7</td></tr></tbody></table></div></details>
+  </div>
+
+  <h2>Whose voice</h2>
+  <p class="muted">Share of the final text's tokens that the human wrote, versus tokens
+  the transcriber introduced through a mishearing and then kept.</p>
+  <div class="card">
+    <div class="legend">
+      <span><i class="swatch" style="background:var(--series-1)"></i>written by the performer</span>
+      <span><i class="swatch" style="background:var(--series-2)"></i>introduced by the transcriber</span>
+    </div>
+    <div class="chart" id="c-author"></div>
+  </div>
+  <div class="card"><details open><summary>Words the transcriber introduced and kept</summary><div class="scroll"><table><thead><tr><th>word</th><th>entered at</th><th>survived</th></tr></thead><tbody><tr><td>might</td><td>1</td><td>4</td></tr></tbody></table></div></details><details><summary>Words from the score that never came back</summary><p class="muted">i'm</p></details></div>
+
+  <h2>The ledger</h2>
+  <p class="muted">Every word-for-word rewrite, most frequent first. This is the
+  transcriber's edit history, the authorship nobody credits.</p>
+  <div class="card"><div class="scroll"><table><thead><tr><th>heard as ← instead of</th><th>count</th></tr></thead><tbody><tr><td><span class="sub-pair"><b>i</b> &larr; i'm</span></td><td>1</td></tr><tr><td><span class="sub-pair"><b>might</b> &larr; like</span></td><td>1</td></tr></tbody></table></div></div>
+
+  <h2>The takes</h2>
+  <p class="muted">Each iteration in full. Insertions and deletions are marked
+  relative to the take before it.</p>
+  <div class="texts"><div class="take"><div class="n">00 &middot; the score</div><p>So anyway, I was going to say, and this is probably nothing, but I noticed the other day that when I read something back that got written down for me, it sounds like a person who agrees with me about everything.
+Which is not what I'm like. I hedge. I stop in the middle. I say "sort of" a lot, and then I take it back.
+None of that survives. It comes back tidy. It comes back like I knew where the sentence was going when I started it, and I didn't, I never do.
+I don't think anyone did this on purpose. That's sort of the thing. There's no one to be annoyed at. It just tidies, because tidying is what it's for, and the tidy version is the one that gets kept.</p></div><div class="take"><div class="n">01</div><p>so anyway i was going to say and this is probably nothing but i noticed the other day that when i read something back that got written down for me it sounds like a person who agrees with me about everything which is not what <del>i'm like</del> <ins>i might</ins> i hedge i stop in the middle i say sort of a lot and then i take it back none of that survives it comes back tidy it comes back like i knew where the sentence was going when i started it and i didn't i never do i don't think anyone did this on purpose that's sort of the thing there's no one to be annoyed at it just tidies because tidying is what it's for and the tidy version is the one that gets kept</p></div><div class="take"><div class="n">02</div><p>so anyway i was going to say and this is probably nothing but i noticed the other day that when i read something back that got written down for me it sounds like a person who agrees with me about everything which is not what i might i hedge i stop in the middle i say sort of a lot and then i take it back none of that survives it comes back tidy it comes back like i knew where the sentence was going when i started it and i didn't i never do i don't think anyone did this on purpose that's sort of the thing there's no one to be annoyed at it just tidies because tidying is what it's for and the tidy version is the one that gets kept</p></div><div class="take"><div class="n">03</div><p>so anyway i was going to say and this is probably nothing but i noticed the other day that when i read something back that got written down for me it sounds like a person who agrees with me about everything which is not what i might i hedge i stop in the middle i say sort of a lot and then i take it back none of that survives it comes back tidy it comes back like i knew where the sentence was going when i started it and i didn't i never do i don't think anyone did this on purpose that's sort of the thing there's no one to be annoyed at it just tidies because tidying is what it's for and the tidy version is the one that gets kept</p></div><div class="take"><div class="n">04</div><p>so anyway i was going to say and this is probably nothing but i noticed the other day that when i read something back that got written down for me it sounds like a person who agrees with me about everything which is not what i might i hedge i stop in the middle i say sort of a lot and then i take it back none of that survives it comes back tidy it comes back like i knew where the sentence was going when i started it and i didn't i never do i don't think anyone did this on purpose that's sort of the thing there's no one to be annoyed at it just tidies because tidying is what it's for and the tidy version is the one that gets kept</p></div><div class="take"><div class="n">05</div><p>so anyway i was going to say and this is probably nothing but i noticed the other day that when i read something back that got written down for me it sounds like a person who agrees with me about everything which is not what i might i hedge i stop in the middle i say sort of a lot and then i take it back none of that survives it comes back tidy it comes back like i knew where the sentence was going when i started it and i didn't i never do i don't think anyone did this on purpose that's sort of the thing there's no one to be annoyed at it just tidies because tidying is what it's for and the tidy version is the one that gets kept</p></div><div class="take"><div class="n">06</div><p>so <del>anyway</del> <ins>ayway</ins> i was going to say and this is probably nothing but i noticed the <del>other</del> <ins>author</ins> day that when i read <del>something</del> <ins>smething</ins> back that got written down for me it sounds like a person who agrees with me about everything which is not what <del>i might</del> <ins>i'm like</ins> i hedge i stop in the middle i say sort of a lot and <del>then</del> <ins>than</ins> i take it back none of that <del>survives</del> <ins>survies</ins> it comes back tidy <del>it</del> comes back like i knew where the sentence was <del>going</del> <ins>gong</ins> when i started it and i didn't i never do i don't think anyone did this on purpose that's sort of the thing <del>there's</del> <ins>thee's</ins> no <del>one</del> <ins>won</ins> to be annoyed at it just tidies because <del>tidying</del> <ins>tiding</ins> is what <del>it's</del> <ins>its</ins> for and <del>the</del> tidy version is the <del>one</del> <ins>won</ins> that gets kept</p></div><div class="take"><div class="n">07</div><p>so ayway i was going to say and this is probably nothing but i noticed the author day that when i read smething back that got written down for me it sounds like a person who agrees with me about everything which is not what i'm like i hedge i stop in the middle i say sort of a lot and than i take it back none of that survies it comes back tidy comes back like i knew where the sentence was gong when i started it and i didn't i never do i don't think anyone did this on purpose that's sort of the thing thee's no won to be annoyed at it just tidies because tiding is what its for and tidy version is the won that gets kept</p></div></div>
+</div>
+
+<script>
+const DATA = {"iters": [1, 2, 3, 4, 5], "wer_vs_prev": [0.014925373134328358, 0.0, 0.0, 0.0, 0.0], "wer_vs_seed": [0.014925373134328358, 0.014925373134328358, 0.014925373134328358, 0.014925373134328358, 0.014925373134328358], "jaccard_vs_seed": [0.9761904761904762, 0.9761904761904762, 0.9761904761904762, 0.9761904761904762, 0.9761904761904762], "cosine_vs_seed": [0.9955599463858928, 0.9955599463858928, 0.9955599463858928, 0.9955599463858928, 0.9955599463858928], "mean_confidence": [0.9807754438059703, 0.9911161964925372, 0.9885253902238806, 0.9913135737313433, 0.992406740597015], "tokens": [134, 134, 134, 134, 134], "punct": [19.402985074626866, 20.149253731343283, 19.402985074626866, 19.402985074626866, 19.402985074626866], "human_tokens": 133, "machine_tokens": 1};
+
+const css = (n) => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const SVGNS = "http://www.w3.org/2000/svg";
+const el = (name, attrs = {}) => {
+  const n = document.createElementNS(SVGNS, name);
+  for (const [k, v] of Object.entries(attrs)) n.setAttribute(k, v);
+  return n;
+};
+const fmt = (v, d = 3) => (v === null || v === undefined || Number.isNaN(v)) ? "–" : (+v).toFixed(d);
+
+/* Line chart: thin 2px strokes, recessive grid, direct end-labels, crosshair
+   tooltip. One y-axis, always: series handed in must share a scale. */
+function lineChart(mount, { x, series, yMax, yMin = 0, yFmt = (v) => fmt(v, 2), xLabel = "iteration" }) {
+  const host = document.getElementById(mount);
+  if (!host) return;
+  host.innerHTML = "";
+  const W = 900, H = 300, m = { t: 14, r: 96, b: 34, l: 46 };
+  const iw = W - m.l - m.r, ih = H - m.t - m.b;
+  /* An explicit yMax is honoured exactly (a 0–1 metric must not get a 1.12
+     axis); an inferred one gets headroom so the top marker isn't clipped. */
+  const hi = Math.max(...series.flatMap(s => s.values.filter(v => v != null)), 0.0001);
+  const top = yMax ?? (hi * 1.12 || 1);
+  const sx = (i) => m.l + (x.length < 2 ? iw / 2 : (i / (x.length - 1)) * iw);
+  const sy = (v) => m.t + ih - ((v - yMin) / (top - yMin)) * ih;
+
+  const svg = el("svg", { viewBox: `0 0 ${W} ${H}`, role: "img" });
+
+  const ticks = 4;
+  for (let k = 0; k <= ticks; k++) {
+    const v = yMin + (top - yMin) * k / ticks;
+    svg.appendChild(el("line", {
+      x1: m.l, x2: m.l + iw, y1: sy(v), y2: sy(v),
+      stroke: css("--grid"), "stroke-width": 1,
+    }));
+    const t = el("text", {
+      x: m.l - 8, y: sy(v) + 4, "text-anchor": "end",
+      fill: css("--text-muted"), "font-size": 11,
+    });
+    t.textContent = yFmt(v);
+    svg.appendChild(t);
+  }
+
+  x.forEach((xv, i) => {
+    if (x.length > 16 && i % 2) return;
+    const t = el("text", {
+      x: sx(i), y: m.t + ih + 20, "text-anchor": "middle",
+      fill: css("--text-muted"), "font-size": 11,
+    });
+    t.textContent = xv;
+    svg.appendChild(t);
+  });
+  const xl = el("text", {
+    x: m.l + iw / 2, y: H - 2, "text-anchor": "middle",
+    fill: css("--text-muted"), "font-size": 11,
+  });
+  xl.textContent = xLabel;
+  svg.appendChild(xl);
+
+  const endLabels = [];
+  series.forEach((s) => {
+    const color = css(s.color);
+    const pts = s.values.map((v, i) => (v == null ? null : [sx(i), sy(v)])).filter(Boolean);
+    if (!pts.length) return;
+    svg.appendChild(el("path", {
+      d: pts.map((p, i) => `${i ? "L" : "M"}${p[0].toFixed(1)},${p[1].toFixed(1)}`).join(" "),
+      fill: "none", stroke: color, "stroke-width": 2,
+      "stroke-linecap": "round", "stroke-linejoin": "round",
+    }));
+    /* 2px surface ring so overlapping markers stay separable */
+    pts.forEach((p) => {
+      svg.appendChild(el("circle", {
+        cx: p[0], cy: p[1], r: 4, fill: color,
+        stroke: css("--surface-1"), "stroke-width": 2,
+      }));
+    });
+    const last = pts[pts.length - 1];
+    const lab = el("text", {
+      x: last[0] + 10, fill: color, "font-size": 12, "font-weight": 600,
+    });
+    lab.textContent = s.label;
+    endLabels.push({ node: lab, y: last[1] + 4 });
+    svg.appendChild(lab);
+  });
+
+  /* Series that finish close together would stack their direct labels on top
+     of each other, and the labels are load-bearing here (they are the relief
+     for the light-mode contrast warning). Space them out. */
+  endLabels.sort((a, b) => a.y - b.y);
+  const MIN_GAP = 15;
+  for (let k = 1; k < endLabels.length; k++) {
+    const gap = endLabels[k].y - endLabels[k - 1].y;
+    if (gap < MIN_GAP) endLabels[k].y = endLabels[k - 1].y + MIN_GAP;
+  }
+  const overflow = endLabels.length
+    ? Math.max(0, endLabels[endLabels.length - 1].y - (m.t + ih))
+    : 0;
+  endLabels.forEach((l) => l.node.setAttribute("y", l.y - overflow));
+
+  const cross = el("line", {
+    y1: m.t, y2: m.t + ih, stroke: css("--text-muted"),
+    "stroke-width": 1, "stroke-dasharray": "3 3", opacity: 0,
+  });
+  svg.appendChild(cross);
+
+  const tip = document.createElement("div");
+  tip.className = "tip";
+  host.appendChild(tip);
+
+  const hit = el("rect", { x: m.l, y: m.t, width: iw, height: ih, fill: "transparent" });
+  svg.appendChild(hit);
+  host.appendChild(svg);
+
+  const move = (ev) => {
+    const r = svg.getBoundingClientRect();
+    const px = ((ev.clientX - r.left) / r.width) * W;
+    let i = Math.round(((px - m.l) / iw) * (x.length - 1));
+    i = Math.max(0, Math.min(x.length - 1, i));
+    cross.setAttribute("x1", sx(i));
+    cross.setAttribute("x2", sx(i));
+    cross.setAttribute("opacity", 1);
+    tip.innerHTML = `<b>${xLabel} ${x[i]}</b>` + series.map((s) =>
+      `<div class="row"><i class="swatch" style="background:${css(s.color)}"></i>${s.label}: ${yFmt(s.values[i])}</div>`
+    ).join("");
+    tip.style.opacity = 1;
+    const left = (sx(i) / W) * r.width;
+    tip.style.left = Math.min(Math.max(left + 14, 4), r.width - tip.offsetWidth - 4) + "px";
+    tip.style.top = "8px";
+  };
+  svg.addEventListener("pointermove", move);
+  svg.addEventListener("pointerleave", () => {
+    tip.style.opacity = 0;
+    cross.setAttribute("opacity", 0);
+  });
+}
+
+/* Single stacked bar: two segments, 2px surface gap between fills, 4px rounded
+   data-ends at the outer edges only. */
+function stackedBar(mount, { segments }) {
+  const host = document.getElementById(mount);
+  if (!host) return;
+  host.innerHTML = "";
+  const W = 900, H = 96, m = { l: 4, r: 4, t: 18, b: 30 };
+  const iw = W - m.l - m.r, bh = H - m.t - m.b;
+  const total = segments.reduce((a, s) => a + s.value, 0) || 1;
+  const svg = el("svg", { viewBox: `0 0 ${W} ${H}`, role: "img" });
+
+  let cursor = m.l;
+  segments.forEach((s, k) => {
+    const raw = (s.value / total) * iw;
+    const w = Math.max(0, raw - (k < segments.length - 1 ? 2 : 0)); /* 2px surface gap */
+    if (w > 0) {
+      svg.appendChild(el("rect", {
+        x: cursor, y: m.t, width: w, height: bh,
+        rx: 4, fill: css(s.color),
+      }));
+    }
+    if (raw > 74) {
+      const t = el("text", {
+        x: cursor + 12, y: m.t + bh / 2 + 5,
+        fill: css("--surface-1"), "font-size": 13, "font-weight": 600,
+      });
+      t.textContent = `${(100 * s.value / total).toFixed(1)}%`;
+      svg.appendChild(t);
+      const l = el("text", {
+        x: cursor, y: m.t - 6, fill: css("--text-secondary"), "font-size": 12,
+      });
+      l.textContent = s.label;
+      svg.appendChild(l);
+    }
+    cursor += raw;
+  });
+  const cap = el("text", {
+    x: m.l, y: H - 8, fill: css("--text-muted"), "font-size": 11,
+  });
+  cap.textContent = `share of the ${segments.reduce((a, s) => a + s.value, 0)} tokens in the final text`;
+  svg.appendChild(cap);
+  host.appendChild(svg);
+}
+
+function draw() {
+  lineChart("c-drift", {
+    x: DATA.iters,
+    series: [
+      { label: "vs. previous", color: "--series-1", values: DATA.wer_vs_prev },
+      { label: "vs. score", color: "--series-2", values: DATA.wer_vs_seed },
+    ],
+    yFmt: (v) => v.toFixed(2),
+    xLabel: "iteration",
+  });
+  lineChart("c-retain", {
+    x: DATA.iters,
+    yMax: 1,
+    series: [
+      { label: "overlap", color: "--series-1", values: DATA.jaccard_vs_seed },
+      { label: "cosine", color: "--series-2", values: DATA.cosine_vs_seed },
+      { label: "confidence", color: "--series-3", values: DATA.mean_confidence },
+    ],
+    yFmt: (v) => v.toFixed(2),
+  });
+  lineChart("c-tokens", {
+    x: DATA.iters,
+    series: [{ label: "tokens", color: "--series-1", values: DATA.tokens }],
+    yFmt: (v) => Math.round(v).toString(),
+  });
+  lineChart("c-punct", {
+    x: DATA.iters,
+    series: [{ label: "punct/100", color: "--series-2", values: DATA.punct }],
+    yFmt: (v) => v.toFixed(1),
+  });
+  stackedBar("c-author", {
+    segments: [
+      { label: "performer", color: "--series-1", value: DATA.human_tokens },
+      { label: "transcriber", color: "--series-2", value: DATA.machine_tokens },
+    ],
+  });
+}
+
+draw();
+/* Redraw on theme change so the marks re-read the swapped tokens. */
+if (window.matchMedia) {
+  window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", draw);
+}
+new MutationObserver(draw).observe(document.documentElement, {
+  attributes: true, attributeFilter: ["data-theme"],
+});
+</script>

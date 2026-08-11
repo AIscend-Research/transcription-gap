@@ -1,0 +1,402 @@
+
+<style>
+  :root {
+    color-scheme: light;
+    --surface-0: #ffffff;
+    --surface-1: #fcfcfb;
+    --surface-2: #f4f4f2;
+    --border: #e2e2dd;
+    --text-primary: #0b0b0b;
+    --text-secondary: #52514e;
+    --text-muted: #7d7c76;
+    --series-1: #2a78d6;
+    --series-2: #eb6834;
+    --series-3: #1baf7a;
+    --grid: #e8e8e3;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:where(:not([data-theme="light"])) {
+      color-scheme: dark;
+      --surface-0: #121211;
+      --surface-1: #1a1a19;
+      --surface-2: #232322;
+      --border: #35352f;
+      --text-primary: #ffffff;
+      --text-secondary: #c3c2b7;
+      --text-muted: #8f8e85;
+      --series-1: #3987e5;
+      --series-2: #d95926;
+      --series-3: #199e70;
+      --grid: #2b2b28;
+    }
+  }
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+    --surface-0: #121211;
+    --surface-1: #1a1a19;
+    --surface-2: #232322;
+    --border: #35352f;
+    --text-primary: #ffffff;
+    --text-secondary: #c3c2b7;
+    --text-muted: #8f8e85;
+    --series-1: #3987e5;
+    --series-2: #d95926;
+    --series-3: #199e70;
+    --grid: #2b2b28;
+  }
+
+  body {
+    margin: 0;
+    background: var(--surface-0);
+    color: var(--text-primary);
+    font: 15px/1.6 ui-sans-serif, -apple-system, "Segoe UI", Roboto, sans-serif;
+  }
+  .wrap { max-width: 980px; margin: 0 auto; padding: 48px 24px 96px; }
+  h1 { font-size: 30px; line-height: 1.2; margin: 0 0 6px; letter-spacing: -0.02em; }
+  h2 { font-size: 19px; margin: 48px 0 4px; letter-spacing: -0.01em; }
+  h3 { font-size: 14px; margin: 0 0 2px; font-weight: 600; }
+  .sub { color: var(--text-secondary); margin: 0 0 8px; }
+  .muted { color: var(--text-muted); font-size: 13px; }
+  .lede { color: var(--text-secondary); max-width: 68ch; }
+
+  .tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; margin: 28px 0 8px; }
+  .tile { background: var(--surface-1); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; }
+  .tile .k { font-size: 12px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.06em; }
+  .tile .v { font-size: 26px; font-weight: 600; letter-spacing: -0.02em; margin-top: 4px; font-variant-numeric: tabular-nums; }
+  .tile .n { font-size: 12px; color: var(--text-secondary); margin-top: 2px; }
+
+  .card { background: var(--surface-1); border: 1px solid var(--border); border-radius: 12px; padding: 18px; margin: 16px 0; }
+  .legend { display: flex; flex-wrap: wrap; gap: 14px; margin: 6px 0 10px; font-size: 13px; color: var(--text-secondary); }
+  .legend span { display: inline-flex; align-items: center; gap: 6px; }
+  .swatch { width: 10px; height: 10px; border-radius: 3px; display: inline-block; }
+
+  .chart { position: relative; }
+  .chart svg { display: block; width: 100%; height: auto; overflow: visible; }
+  .tip {
+    position: absolute; pointer-events: none; opacity: 0; transition: opacity .08s;
+    background: var(--surface-0); border: 1px solid var(--border); border-radius: 8px;
+    padding: 8px 10px; font-size: 12px; box-shadow: 0 4px 14px rgb(0 0 0 / 0.12);
+    white-space: nowrap; z-index: 4; color: var(--text-primary);
+  }
+  .tip b { font-weight: 600; }
+  .tip .row { display: flex; align-items: center; gap: 6px; margin-top: 3px; font-variant-numeric: tabular-nums; }
+
+  .scroll { overflow-x: auto; }
+  table { border-collapse: collapse; width: 100%; font-size: 13px; font-variant-numeric: tabular-nums; }
+  th, td { text-align: right; padding: 6px 10px; border-bottom: 1px solid var(--border); white-space: nowrap; }
+  th { color: var(--text-muted); font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: 0.05em; }
+  td:first-child, th:first-child { text-align: left; }
+  details > summary { cursor: pointer; color: var(--text-secondary); font-size: 13px; margin-top: 10px; }
+
+  .texts { display: grid; gap: 12px; }
+  .take { background: var(--surface-1); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; }
+  .take .n { font-size: 12px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 6px; }
+  .take p { margin: 0; white-space: pre-wrap; }
+  ins { background: color-mix(in srgb, var(--series-3) 22%, transparent); text-decoration: none; border-radius: 2px; }
+  del { background: color-mix(in srgb, var(--series-2) 22%, transparent); }
+  .sub-pair { color: var(--text-secondary); }
+  .sub-pair b { color: var(--text-primary); }
+</style>
+
+<div class="wrap">
+  <h1>The Transcription Gap</h1>
+  <p class="sub">aura-2-thalia-en performing &middot; nova-3 listening &middot; smart_format=on</p>
+  <p class="lede">A spoken-word score is performed, transcribed, and the transcript becomes the score for the next performance. Nothing is edited by hand. Every difference below was introduced by the speech recogniser: mishearings, dropped phrasing, silent grammatical corrections, accumulating across iterations the way a generative image loop collapses into its own house style. The question the numbers are asked to answer is not how wrong the machine is. It is whose text this ends up being.</p>
+
+  <div class="tiles"><div class="tile"><div class="k">iterations</div><div class="v">10</div><div class="n">of 10 requested</div></div><div class="tile"><div class="k">drift from score</div><div class="v">0.214</div><div class="n">word error rate, final vs. seed</div></div><div class="tile"><div class="k">last step</div><div class="v">0.056</div><div class="n">WER between the last two takes</div></div><div class="tile"><div class="k">outcome</div><div class="v">open</div><div class="n">still drifting at the last take</div></div><div class="tile"><div class="k">transcriber's share</div><div class="v">13.6%</div><div class="n">19 of 140 final tokens</div></div><div class="tile"><div class="k">score words lost</div><div class="v">18</div><div class="n">never heard again</div></div></div>
+
+  <h2>Drift</h2>
+  <p class="muted">Word error rate against the previous iteration (how fast the text is
+  still moving) and against the original score (how far it has travelled). A contracting
+  step-to-step curve is the signature of an attractor.</p>
+  <div class="card">
+    <div class="legend">
+      <span><i class="swatch" style="background:var(--series-1)"></i>vs. previous iteration</span>
+      <span><i class="swatch" style="background:var(--series-2)"></i>vs. original score</span>
+    </div>
+    <div class="chart" id="c-drift"></div>
+    <details><summary>Table view</summary><div class="scroll"><table><thead><tr><th>iter</th><th>WER vs prev</th><th>WER vs score</th><th>CER vs score</th></tr></thead><tbody><tr><td>1</td><td>0.0130</td><td>0.0130</td><td>0.0065</td></tr><tr><td>2</td><td>0.0131</td><td>0.0260</td><td>0.0087</td></tr><tr><td>3</td><td>0.0327</td><td>0.0584</td><td>0.0206</td></tr><tr><td>4</td><td>0.0267</td><td>0.0844</td><td>0.0282</td></tr><tr><td>5</td><td>0.0338</td><td>0.1039</td><td>0.0369</td></tr><tr><td>6</td><td>0.0205</td><td>0.1104</td><td>0.0412</td></tr><tr><td>7</td><td>0.0345</td><td>0.1429</td><td>0.0499</td></tr><tr><td>8</td><td>0.0140</td><td>0.1558</td><td>0.0521</td></tr><tr><td>9</td><td>0.0350</td><td>0.1883</td><td>0.0586</td></tr><tr><td>10</td><td>0.0563</td><td>0.2143</td><td>0.0716</td></tr></tbody></table></div></details>
+  </div>
+
+  <h2>Retention and confidence</h2>
+  <p class="muted">Vocabulary overlap with the score, bag-of-words cosine against the
+  score, and the transcriber's own mean word confidence. All three share a 0–1 axis.
+  Confidence rising while overlap falls is the loop becoming fluent in its own text.</p>
+  <div class="card">
+    <div class="legend">
+      <span><i class="swatch" style="background:var(--series-1)"></i>vocabulary overlap</span>
+      <span><i class="swatch" style="background:var(--series-2)"></i>cosine vs. score</span>
+      <span><i class="swatch" style="background:var(--series-3)"></i>mean confidence</span>
+    </div>
+    <div class="chart" id="c-retain"></div>
+    <details><summary>Table view</summary><div class="scroll"><table><thead><tr><th>iter</th><th>overlap</th><th>cosine</th><th>confidence</th></tr></thead><tbody><tr><td>1</td><td>0.9800</td><td>0.9978</td><td>0.9686</td></tr><tr><td>2</td><td>0.9412</td><td>0.9944</td><td>0.9653</td></tr><tr><td>3</td><td>0.9038</td><td>0.9892</td><td>0.9646</td></tr><tr><td>4</td><td>0.8857</td><td>0.9800</td><td>0.9658</td></tr><tr><td>5</td><td>0.8679</td><td>0.9748</td><td>0.9633</td></tr><tr><td>6</td><td>0.8505</td><td>0.9754</td><td>0.9651</td></tr><tr><td>7</td><td>0.7909</td><td>0.9662</td><td>0.9626</td></tr><tr><td>8</td><td>0.7679</td><td>0.9629</td><td>0.9666</td></tr><tr><td>9</td><td>0.7241</td><td>0.9512</td><td>0.9600</td></tr><tr><td>10</td><td>0.6923</td><td>0.9300</td><td>0.9545</td></tr></tbody></table></div></details>
+  </div>
+
+  <h2>What the transcript cannot hold</h2>
+  <p class="muted">Token count and punctuation density per iteration, the only channels a
+  transcript has for phrasing. Their collapse is the performance being deleted.</p>
+  <div class="card">
+    <div class="legend">
+      <span><i class="swatch" style="background:var(--series-1)"></i>tokens</span>
+    </div>
+    <div class="chart" id="c-tokens"></div>
+    <div class="legend" style="margin-top:14px">
+      <span><i class="swatch" style="background:var(--series-2)"></i>punctuation marks per 100 tokens</span>
+    </div>
+    <div class="chart" id="c-punct"></div>
+    <details><summary>Table view</summary><div class="scroll"><table><thead><tr><th>iter</th><th>tokens</th><th>TTR</th><th>punct/100</th><th>audio s</th></tr></thead><tbody><tr><td>1</td><td>153</td><td>0.647</td><td>11.11</td><td>61.7</td></tr><tr><td>2</td><td>153</td><td>0.647</td><td>11.11</td><td>61.3</td></tr><tr><td>3</td><td>150</td><td>0.660</td><td>11.33</td><td>61.3</td></tr><tr><td>4</td><td>148</td><td>0.669</td><td>11.49</td><td>60.2</td></tr><tr><td>5</td><td>146</td><td>0.678</td><td>11.64</td><td>59.4</td></tr><tr><td>6</td><td>145</td><td>0.683</td><td>11.72</td><td>58.6</td></tr><tr><td>7</td><td>143</td><td>0.685</td><td>11.89</td><td>58.3</td></tr><tr><td>8</td><td>143</td><td>0.692</td><td>11.89</td><td>57.5</td></tr><tr><td>9</td><td>142</td><td>0.711</td><td>11.97</td><td>57.5</td></tr><tr><td>10</td><td>140</td><td>0.707</td><td>12.14</td><td>57.1</td></tr></tbody></table></div></details>
+  </div>
+
+  <h2>Whose voice</h2>
+  <p class="muted">Share of the final text's tokens that the human wrote, versus tokens
+  the transcriber introduced through a mishearing and then kept.</p>
+  <div class="card">
+    <div class="legend">
+      <span><i class="swatch" style="background:var(--series-1)"></i>written by the performer</span>
+      <span><i class="swatch" style="background:var(--series-2)"></i>introduced by the transcriber</span>
+    </div>
+    <div class="chart" id="c-author"></div>
+  </div>
+  <div class="card"><details open><summary>Words the transcriber introduced and kept</summary><div class="scroll"><table><thead><tr><th>word</th><th>entered at</th><th>survived</th></tr></thead><tbody><tr><td>languae</td><td>1</td><td>9</td></tr><tr><td>bhaving</td><td>2</td><td>8</td></tr><tr><td>paue</td><td>3</td><td>7</td></tr><tr><td>vice</td><td>3</td><td>7</td></tr><tr><td>whih</td><td>5</td><td>5</td></tr><tr><td>pipeine</td><td>6</td><td>4</td></tr><tr><td>asigns</td><td>7</td><td>3</td></tr><tr><td>bfore</td><td>7</td><td>3</td></tr><tr><td>modl</td><td>8</td><td>2</td></tr><tr><td>simly</td><td>8</td><td>2</td></tr><tr><td>resut</td><td>9</td><td>1</td></tr><tr><td>sustitution</td><td>9</td><td>1</td></tr><tr><td>then</td><td>9</td><td>1</td></tr><tr><td>towad</td><td>9</td><td>1</td></tr><tr><td>acusic</td><td>10</td><td>0</td></tr><tr><td>convergee</td><td>10</td><td>0</td></tr><tr><td>entiely</td><td>10</td><td>0</td></tr><tr><td>thse</td><td>10</td><td>0</td></tr></tbody></table></div></details><details><summary>Words from the score that never came back</summary><p class="muted">acoustic, assigns, before, behaving, convergence, entirely, language, pause, pipeline, result, simply, so, substitution, than, those, to, voice, which</p></details></div>
+
+  <h2>The ledger</h2>
+  <p class="muted">Every word-for-word rewrite, most frequent first. This is the
+  transcriber's edit history, the authorship nobody credits.</p>
+  <div class="card"><div class="scroll"><table><thead><tr><th>heard as ← instead of</th><th>count</th></tr></thead><tbody><tr><td><span class="sub-pair"><b>four</b> &larr; for</span></td><td>3</td></tr><tr><td><span class="sub-pair"><b>for</b> &larr; four</span></td><td>3</td></tr><tr><td><span class="sub-pair"><b>then</b> &larr; than</span></td><td>2</td></tr><tr><td><span class="sub-pair"><b>languae</b> &larr; language</span></td><td>1</td></tr><tr><td><span class="sub-pair"><b>convergece</b> &larr; convergence</span></td><td>1</td></tr><tr><td><span class="sub-pair"><b>bhaving</b> &larr; behaving</span></td><td>1</td></tr><tr><td><span class="sub-pair"><b>paue</b> &larr; pause</span></td><td>1</td></tr><tr><td><span class="sub-pair"><b>vice</b> &larr; voice</span></td><td>1</td></tr><tr><td><span class="sub-pair"><b>whih</b> &larr; which</span></td><td>1</td></tr><tr><td><span class="sub-pair"><b>pipeine</b> &larr; pipeline</span></td><td>1</td></tr><tr><td><span class="sub-pair"><b>acousic</b> &larr; acoustic</span></td><td>1</td></tr><tr><td><span class="sub-pair"><b>asigns</b> &larr; assigns</span></td><td>1</td></tr><tr><td><span class="sub-pair"><b>bfore</b> &larr; before</span></td><td>1</td></tr><tr><td><span class="sub-pair"><b>modl</b> &larr; model</span></td><td>1</td></tr><tr><td><span class="sub-pair"><b>simly</b> &larr; simply</span></td><td>1</td></tr><tr><td><span class="sub-pair"><b>sustitution</b> &larr; substitution</span></td><td>1</td></tr><tr><td><span class="sub-pair"><b>towad</b> &larr; toward</span></td><td>1</td></tr><tr><td><span class="sub-pair"><b>resut</b> &larr; result</span></td><td>1</td></tr><tr><td><span class="sub-pair"><b>acusic</b> &larr; acousic</span></td><td>1</td></tr><tr><td><span class="sub-pair"><b>thse</b> &larr; those</span></td><td>1</td></tr><tr><td><span class="sub-pair"><b>entiely</b> &larr; entirely</span></td><td>1</td></tr><tr><td><span class="sub-pair"><b>convergee</b> &larr; convergece</span></td><td>1</td></tr></tbody></table></div></div>
+
+  <h2>The takes</h2>
+  <p class="muted">Each iteration in full. Insertions and deletions are marked
+  relative to the take before it.</p>
+  <div class="texts"><div class="take"><div class="n">00 &middot; the score</div><p>The acoustic model assigns a posterior over phoneme sequences, and the language model reweights that posterior toward sequences it has seen before. Decoding is the argmax over the product. Nothing in this pipeline has a representation for emphasis, for a held vowel, for a pause used as punctuation, and so those quantities are not degraded during decoding; they are absent from the search space entirely.
+Observe that the resulting error is not symmetric. A rare word is replaced by a common one far more often than the reverse, because the prior is a distribution over a corpus and the corpus is not you. Iterate the substitution and the text migrates monotonically toward the high-probability region, which is to say toward the mean of everything the model was trained on.
+This is a convergence result rather than a failure mode. The system is behaving as specified. The specification simply did not include your voice.</p></div><div class="take"><div class="n">01</div><p>the acoustic model assigns a posterior over phoneme sequences and the <del>language</del> <ins>languae</ins> model reweights that posterior toward sequences it has seen before decoding is the argmax over the product nothing in this pipeline has a representation for emphasis for a held vowel for a pause used as punctuation and so those quantities are not degraded during decoding they are absent from the search space entirely observe that the resulting error is not symmetric a rare word is replaced by a common one far more often than the reverse because the prior is a distribution over a corpus and <del>the</del> corpus is not you iterate the substitution and the text migrates monotonically toward the high probability region which is to say toward the mean of everything the model was trained on this is a convergence result rather than a failure mode the system is behaving as specified the specification simply did not include your voice</p></div><div class="take"><div class="n">02</div><p>the acoustic model assigns a posterior over phoneme sequences and the languae model reweights that posterior toward sequences it has seen before decoding is the argmax over the product nothing in this pipeline has a representation for emphasis for a held vowel for a pause used as punctuation and so those quantities are not degraded during decoding they are absent from the search space entirely observe that the resulting error is not symmetric a rare word is replaced by a common one far more often than the reverse because the prior is a distribution over a corpus and corpus is not you iterate the substitution and the text migrates monotonically toward the high probability region which is to say toward the mean of everything the model was trained on this is a <del>convergence</del> <ins>convergece</ins> result rather than a failure mode the system is <del>behaving</del> <ins>bhaving</ins> as specified the specification simply did not include your voice</p></div><div class="take"><div class="n">03</div><p>the acoustic model assigns a posterior over phoneme sequences and the languae model reweights that posterior toward sequences it has seen before decoding is the argmax over the product nothing in this pipeline has a representation for emphasis for a held vowel for a <del>pause</del> <ins>paue</ins> used as punctuation and so those quantities are not degraded during decoding they are absent from the search space entirely observe that the resulting error is not symmetric <del>a</del> rare word is replaced by a common one far more often than the reverse because the prior is a distribution over a corpus and corpus <del>is</del> not you iterate the substitution and the text migrates monotonically toward the high probability region which is to say toward <del>the</del> mean of everything the model was trained on this is a convergece result rather than a failure mode the system is bhaving as specified the specification simply did not include your <del>voice</del> <ins>vice</ins></p></div><div class="take"><div class="n">04</div><p>the acoustic model assigns a posterior over phoneme sequences and the languae model reweights that posterior toward sequences it has seen before decoding is the argmax over the product nothing in this pipeline has a representation <del>for</del> <ins>four</ins> emphasis for a held vowel <del>for</del> <ins>four</ins> a paue used as punctuation and <del>so</del> those quantities are not degraded during decoding they are absent from the search space entirely observe that the resulting error is not symmetric rare word is replaced by a common one far more often than the reverse because the prior is a distribution over a corpus and corpus not you iterate the substitution and the text migrates monotonically toward the high probability region which is to say toward mean of everything the model was trained on this is a convergece result rather than <del>a</del> failure mode the system is bhaving as specified the specification simply did not include your vice</p></div><div class="take"><div class="n">05</div><p>the acoustic model assigns a posterior over phoneme sequences and the languae model reweights that posterior toward sequences it has seen before decoding <del>is</del> the argmax over the product nothing in this pipeline has a representation <ins>for emphasis</ins> four <del>emphasis for</del> a held vowel four a paue used as punctuation and those quantities are not degraded during decoding they are absent from <del>the</del> search space entirely observe that the resulting error is not symmetric rare word is replaced by a common one far more often than the reverse because the prior is a distribution over a corpus and corpus not you iterate the substitution and the text migrates monotonically toward the high probability region <del>which</del> <ins>whih</ins> is to say toward mean of everything the model was trained on this is a convergece result rather than failure mode the system is bhaving as specified the specification simply did not include your vice</p></div><div class="take"><div class="n">06</div><p>the acoustic model assigns a posterior over phoneme sequences and the languae model reweights that posterior toward sequences it has seen before decoding the argmax over the product nothing in this <del>pipeline</del> <ins>pipeine</ins> has a representation for emphasis <del>four</del> <ins>for</ins> a held vowel four a paue used as punctuation and those quantities are not degraded during decoding they are absent from search space entirely observe that the resulting error is not symmetric rare word is replaced by a common one far more often than the reverse because the prior is a distribution over a corpus and corpus not you iterate <del>the</del> substitution and the text migrates monotonically toward the high probability region whih is to say toward mean of everything the model was trained on this is a convergece result rather than failure mode the system is bhaving as specified the specification simply did not include your vice</p></div><div class="take"><div class="n">07</div><p>the <del>acoustic</del> <ins>acousic</ins> model <del>assigns</del> <ins>asigns</ins> a posterior over phoneme sequences and the languae model reweights that posterior toward sequences it has seen <del>before</del> <ins>bfore</ins> decoding the argmax over the product nothing in this pipeine has a representation for emphasis for a held vowel four a paue used as punctuation and those quantities are not degraded during decoding they are absent from search space entirely observe that the resulting error is not symmetric rare word is replaced by a common one far more often than the reverse because the prior is <del>a</del> distribution over a corpus and corpus not you iterate substitution and the text migrates monotonically toward the high probability region whih is <del>to</del> say toward mean of everything the model was trained on this is a convergece result rather than failure mode the system is bhaving as specified the specification simply did not include your vice</p></div><div class="take"><div class="n">08</div><p>the acousic model asigns a posterior over phoneme sequences and the languae <del>model</del> <ins>modl</ins> reweights that posterior toward sequences it has seen bfore decoding the argmax over the product nothing in this pipeine has a representation for emphasis for a held vowel four a paue used as punctuation and those quantities are not degraded during decoding they are absent from search space entirely observe that the resulting error is not symmetric rare word is replaced by a common one far more often than the reverse because the prior is distribution over a corpus and corpus not you iterate substitution and the text migrates monotonically toward the high probability region whih is say toward mean of everything the model was trained on this is a convergece result rather than failure mode the system is bhaving as specified the specification <del>simply</del> <ins>simly</ins> did not include your vice</p></div><div class="take"><div class="n">09</div><p>the acousic model asigns a posterior over phoneme sequences and the languae modl reweights that posterior toward sequences it has seen bfore decoding the argmax over the product nothing in this pipeine has a representation for emphasis for a held vowel four a paue used as punctuation and those quantities are not degraded during decoding they are absent from search space entirely observe that the resulting error is not symmetric rare word is replaced by a common one far more often <del>than</del> <ins>then</ins> the reverse because the prior is distribution over <del>a</del> corpus and corpus not you iterate <del>substitution</del> <ins>sustitution</ins> and the text migrates monotonically toward the high probability region whih is say <del>toward</del> <ins>towad</ins> mean of everything the model was trained on this is a convergece <del>result</del> <ins>resut</ins> rather than failure mode the system is bhaving as specified the specification simly did not include your vice</p></div><div class="take"><div class="n">10</div><p>the <del>acousic</del> <ins>acusic</ins> model asigns a posterior over phoneme sequences and <del>the</del> languae modl reweights that posterior toward sequences it has seen bfore decoding the argmax over the product nothing in this pipeine has a representation for emphasis for a held vowel <del>four</del> <ins>for</ins> a paue used as punctuation and <del>those</del> <ins>thse</ins> quantities are not degraded during decoding they are absent from search space <del>entirely</del> <ins>entiely</ins> observe that <del>the</del> resulting error is not symmetric rare word is replaced by a common one far more often then the reverse because the prior is distribution over corpus and corpus not you iterate sustitution and the text migrates monotonically toward the high probability region whih is say towad mean of everything the model was trained on this is a <del>convergece</del> <ins>convergee</ins> resut rather <del>than</del> <ins>then</ins> failure mode the system is bhaving as specified the specification simly did not include your vice</p></div></div>
+</div>
+
+<script>
+const DATA = {"iters": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10], "wer_vs_prev": [0.012987012987012988, 0.013071895424836602, 0.032679738562091505, 0.02666666666666667, 0.033783783783783786, 0.02054794520547945, 0.034482758620689655, 0.013986013986013986, 0.03496503496503497, 0.056338028169014086], "wer_vs_seed": [0.012987012987012988, 0.025974025974025976, 0.05844155844155844, 0.08441558441558442, 0.1038961038961039, 0.11038961038961038, 0.14285714285714285, 0.15584415584415584, 0.18831168831168832, 0.21428571428571427], "jaccard_vs_seed": [0.98, 0.9411764705882353, 0.9038461538461539, 0.8857142857142857, 0.8679245283018868, 0.8504672897196262, 0.7909090909090909, 0.7678571428571429, 0.7241379310344828, 0.6923076923076923], "cosine_vs_seed": [0.9978098450659412, 0.9944331620031123, 0.9892174804526113, 0.9800098678255825, 0.974764923949977, 0.9754177662977636, 0.9662164567321779, 0.9629118229848026, 0.9512054350701533, 0.9299754423146187], "mean_confidence": [0.9686465213523545, 0.9653231011831027, 0.964613229771647, 0.9658291268894694, 0.9632690828040201, 0.9651001889982089, 0.9626307750299055, 0.9666374199472878, 0.9599917744475487, 0.9544881176808874], "tokens": [153, 153, 150, 148, 146, 145, 143, 143, 142, 140], "punct": [11.11111111111111, 11.11111111111111, 11.333333333333334, 11.486486486486486, 11.643835616438356, 11.724137931034482, 11.888111888111888, 11.888111888111888, 11.971830985915492, 12.142857142857142], "human_tokens": 121, "machine_tokens": 19};
+
+const css = (n) => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const SVGNS = "http://www.w3.org/2000/svg";
+const el = (name, attrs = {}) => {
+  const n = document.createElementNS(SVGNS, name);
+  for (const [k, v] of Object.entries(attrs)) n.setAttribute(k, v);
+  return n;
+};
+const fmt = (v, d = 3) => (v === null || v === undefined || Number.isNaN(v)) ? "–" : (+v).toFixed(d);
+
+/* Line chart: thin 2px strokes, recessive grid, direct end-labels, crosshair
+   tooltip. One y-axis, always: series handed in must share a scale. */
+function lineChart(mount, { x, series, yMax, yMin = 0, yFmt = (v) => fmt(v, 2), xLabel = "iteration" }) {
+  const host = document.getElementById(mount);
+  if (!host) return;
+  host.innerHTML = "";
+  const W = 900, H = 300, m = { t: 14, r: 96, b: 34, l: 46 };
+  const iw = W - m.l - m.r, ih = H - m.t - m.b;
+  /* An explicit yMax is honoured exactly (a 0–1 metric must not get a 1.12
+     axis); an inferred one gets headroom so the top marker isn't clipped. */
+  const hi = Math.max(...series.flatMap(s => s.values.filter(v => v != null)), 0.0001);
+  const top = yMax ?? (hi * 1.12 || 1);
+  const sx = (i) => m.l + (x.length < 2 ? iw / 2 : (i / (x.length - 1)) * iw);
+  const sy = (v) => m.t + ih - ((v - yMin) / (top - yMin)) * ih;
+
+  const svg = el("svg", { viewBox: `0 0 ${W} ${H}`, role: "img" });
+
+  const ticks = 4;
+  for (let k = 0; k <= ticks; k++) {
+    const v = yMin + (top - yMin) * k / ticks;
+    svg.appendChild(el("line", {
+      x1: m.l, x2: m.l + iw, y1: sy(v), y2: sy(v),
+      stroke: css("--grid"), "stroke-width": 1,
+    }));
+    const t = el("text", {
+      x: m.l - 8, y: sy(v) + 4, "text-anchor": "end",
+      fill: css("--text-muted"), "font-size": 11,
+    });
+    t.textContent = yFmt(v);
+    svg.appendChild(t);
+  }
+
+  x.forEach((xv, i) => {
+    if (x.length > 16 && i % 2) return;
+    const t = el("text", {
+      x: sx(i), y: m.t + ih + 20, "text-anchor": "middle",
+      fill: css("--text-muted"), "font-size": 11,
+    });
+    t.textContent = xv;
+    svg.appendChild(t);
+  });
+  const xl = el("text", {
+    x: m.l + iw / 2, y: H - 2, "text-anchor": "middle",
+    fill: css("--text-muted"), "font-size": 11,
+  });
+  xl.textContent = xLabel;
+  svg.appendChild(xl);
+
+  const endLabels = [];
+  series.forEach((s) => {
+    const color = css(s.color);
+    const pts = s.values.map((v, i) => (v == null ? null : [sx(i), sy(v)])).filter(Boolean);
+    if (!pts.length) return;
+    svg.appendChild(el("path", {
+      d: pts.map((p, i) => `${i ? "L" : "M"}${p[0].toFixed(1)},${p[1].toFixed(1)}`).join(" "),
+      fill: "none", stroke: color, "stroke-width": 2,
+      "stroke-linecap": "round", "stroke-linejoin": "round",
+    }));
+    /* 2px surface ring so overlapping markers stay separable */
+    pts.forEach((p) => {
+      svg.appendChild(el("circle", {
+        cx: p[0], cy: p[1], r: 4, fill: color,
+        stroke: css("--surface-1"), "stroke-width": 2,
+      }));
+    });
+    const last = pts[pts.length - 1];
+    const lab = el("text", {
+      x: last[0] + 10, fill: color, "font-size": 12, "font-weight": 600,
+    });
+    lab.textContent = s.label;
+    endLabels.push({ node: lab, y: last[1] + 4 });
+    svg.appendChild(lab);
+  });
+
+  /* Series that finish close together would stack their direct labels on top
+     of each other, and the labels are load-bearing here (they are the relief
+     for the light-mode contrast warning). Space them out. */
+  endLabels.sort((a, b) => a.y - b.y);
+  const MIN_GAP = 15;
+  for (let k = 1; k < endLabels.length; k++) {
+    const gap = endLabels[k].y - endLabels[k - 1].y;
+    if (gap < MIN_GAP) endLabels[k].y = endLabels[k - 1].y + MIN_GAP;
+  }
+  const overflow = endLabels.length
+    ? Math.max(0, endLabels[endLabels.length - 1].y - (m.t + ih))
+    : 0;
+  endLabels.forEach((l) => l.node.setAttribute("y", l.y - overflow));
+
+  const cross = el("line", {
+    y1: m.t, y2: m.t + ih, stroke: css("--text-muted"),
+    "stroke-width": 1, "stroke-dasharray": "3 3", opacity: 0,
+  });
+  svg.appendChild(cross);
+
+  const tip = document.createElement("div");
+  tip.className = "tip";
+  host.appendChild(tip);
+
+  const hit = el("rect", { x: m.l, y: m.t, width: iw, height: ih, fill: "transparent" });
+  svg.appendChild(hit);
+  host.appendChild(svg);
+
+  const move = (ev) => {
+    const r = svg.getBoundingClientRect();
+    const px = ((ev.clientX - r.left) / r.width) * W;
+    let i = Math.round(((px - m.l) / iw) * (x.length - 1));
+    i = Math.max(0, Math.min(x.length - 1, i));
+    cross.setAttribute("x1", sx(i));
+    cross.setAttribute("x2", sx(i));
+    cross.setAttribute("opacity", 1);
+    tip.innerHTML = `<b>${xLabel} ${x[i]}</b>` + series.map((s) =>
+      `<div class="row"><i class="swatch" style="background:${css(s.color)}"></i>${s.label}: ${yFmt(s.values[i])}</div>`
+    ).join("");
+    tip.style.opacity = 1;
+    const left = (sx(i) / W) * r.width;
+    tip.style.left = Math.min(Math.max(left + 14, 4), r.width - tip.offsetWidth - 4) + "px";
+    tip.style.top = "8px";
+  };
+  svg.addEventListener("pointermove", move);
+  svg.addEventListener("pointerleave", () => {
+    tip.style.opacity = 0;
+    cross.setAttribute("opacity", 0);
+  });
+}
+
+/* Single stacked bar: two segments, 2px surface gap between fills, 4px rounded
+   data-ends at the outer edges only. */
+function stackedBar(mount, { segments }) {
+  const host = document.getElementById(mount);
+  if (!host) return;
+  host.innerHTML = "";
+  const W = 900, H = 96, m = { l: 4, r: 4, t: 18, b: 30 };
+  const iw = W - m.l - m.r, bh = H - m.t - m.b;
+  const total = segments.reduce((a, s) => a + s.value, 0) || 1;
+  const svg = el("svg", { viewBox: `0 0 ${W} ${H}`, role: "img" });
+
+  let cursor = m.l;
+  segments.forEach((s, k) => {
+    const raw = (s.value / total) * iw;
+    const w = Math.max(0, raw - (k < segments.length - 1 ? 2 : 0)); /* 2px surface gap */
+    if (w > 0) {
+      svg.appendChild(el("rect", {
+        x: cursor, y: m.t, width: w, height: bh,
+        rx: 4, fill: css(s.color),
+      }));
+    }
+    if (raw > 74) {
+      const t = el("text", {
+        x: cursor + 12, y: m.t + bh / 2 + 5,
+        fill: css("--surface-1"), "font-size": 13, "font-weight": 600,
+      });
+      t.textContent = `${(100 * s.value / total).toFixed(1)}%`;
+      svg.appendChild(t);
+      const l = el("text", {
+        x: cursor, y: m.t - 6, fill: css("--text-secondary"), "font-size": 12,
+      });
+      l.textContent = s.label;
+      svg.appendChild(l);
+    }
+    cursor += raw;
+  });
+  const cap = el("text", {
+    x: m.l, y: H - 8, fill: css("--text-muted"), "font-size": 11,
+  });
+  cap.textContent = `share of the ${segments.reduce((a, s) => a + s.value, 0)} tokens in the final text`;
+  svg.appendChild(cap);
+  host.appendChild(svg);
+}
+
+function draw() {
+  lineChart("c-drift", {
+    x: DATA.iters,
+    series: [
+      { label: "vs. previous", color: "--series-1", values: DATA.wer_vs_prev },
+      { label: "vs. score", color: "--series-2", values: DATA.wer_vs_seed },
+    ],
+    yFmt: (v) => v.toFixed(2),
+    xLabel: "iteration",
+  });
+  lineChart("c-retain", {
+    x: DATA.iters,
+    yMax: 1,
+    series: [
+      { label: "overlap", color: "--series-1", values: DATA.jaccard_vs_seed },
+      { label: "cosine", color: "--series-2", values: DATA.cosine_vs_seed },
+      { label: "confidence", color: "--series-3", values: DATA.mean_confidence },
+    ],
+    yFmt: (v) => v.toFixed(2),
+  });
+  lineChart("c-tokens", {
+    x: DATA.iters,
+    series: [{ label: "tokens", color: "--series-1", values: DATA.tokens }],
+    yFmt: (v) => Math.round(v).toString(),
+  });
+  lineChart("c-punct", {
+    x: DATA.iters,
+    series: [{ label: "punct/100", color: "--series-2", values: DATA.punct }],
+    yFmt: (v) => v.toFixed(1),
+  });
+  stackedBar("c-author", {
+    segments: [
+      { label: "performer", color: "--series-1", value: DATA.human_tokens },
+      { label: "transcriber", color: "--series-2", value: DATA.machine_tokens },
+    ],
+  });
+}
+
+draw();
+/* Redraw on theme change so the marks re-read the swapped tokens. */
+if (window.matchMedia) {
+  window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", draw);
+}
+new MutationObserver(draw).observe(document.documentElement, {
+  attributes: true, attributeFilter: ["data-theme"],
+});
+</script>

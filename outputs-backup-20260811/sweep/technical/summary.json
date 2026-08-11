@@ -1,0 +1,394 @@
+{
+  "seed_path": "seeds/technical.txt",
+  "iterations_run": 10,
+  "iterations_requested": 10,
+  "elapsed_seconds": 5.643728256225586,
+  "voice": "aura-2-thalia-en",
+  "listen_model": "nova-3",
+  "smart_format": true,
+  "room_active": false,
+  "convergence": {
+    "status": "open",
+    "fixed_point_at": null,
+    "cycle": null,
+    "deltas": [
+      0.012987012987012988,
+      0.013071895424836602,
+      0.032679738562091505,
+      0.02666666666666667,
+      0.033783783783783786,
+      0.02054794520547945,
+      0.034482758620689655,
+      0.013986013986013986,
+      0.03496503496503497,
+      0.056338028169014086
+    ],
+    "early_mean_delta": 0.019579548991313696,
+    "late_mean_delta": 0.035096359040021015,
+    "decay_ratio": 1.7925008924154087,
+    "contracting": false
+  },
+  "authorship": {
+    "machine_share": 0.1357142857142857,
+    "human_share": 0.8642857142857143,
+    "machine_vocab_size": 18,
+    "seed_words_lost": 18,
+    "seed_words_lost_list": [
+      "acoustic",
+      "assigns",
+      "before",
+      "behaving",
+      "convergence",
+      "entirely",
+      "language",
+      "pause",
+      "pipeline",
+      "result",
+      "simply",
+      "so",
+      "substitution",
+      "than",
+      "those",
+      "to",
+      "voice",
+      "which"
+    ],
+    "machine_words": [
+      {
+        "word": "languae",
+        "entered_at": 1,
+        "survived_iterations": 9
+      },
+      {
+        "word": "bhaving",
+        "entered_at": 2,
+        "survived_iterations": 8
+      },
+      {
+        "word": "paue",
+        "entered_at": 3,
+        "survived_iterations": 7
+      },
+      {
+        "word": "vice",
+        "entered_at": 3,
+        "survived_iterations": 7
+      },
+      {
+        "word": "whih",
+        "entered_at": 5,
+        "survived_iterations": 5
+      },
+      {
+        "word": "pipeine",
+        "entered_at": 6,
+        "survived_iterations": 4
+      },
+      {
+        "word": "asigns",
+        "entered_at": 7,
+        "survived_iterations": 3
+      },
+      {
+        "word": "bfore",
+        "entered_at": 7,
+        "survived_iterations": 3
+      },
+      {
+        "word": "modl",
+        "entered_at": 8,
+        "survived_iterations": 2
+      },
+      {
+        "word": "simly",
+        "entered_at": 8,
+        "survived_iterations": 2
+      },
+      {
+        "word": "resut",
+        "entered_at": 9,
+        "survived_iterations": 1
+      },
+      {
+        "word": "sustitution",
+        "entered_at": 9,
+        "survived_iterations": 1
+      },
+      {
+        "word": "then",
+        "entered_at": 9,
+        "survived_iterations": 1
+      },
+      {
+        "word": "towad",
+        "entered_at": 9,
+        "survived_iterations": 1
+      },
+      {
+        "word": "acusic",
+        "entered_at": 10,
+        "survived_iterations": 0
+      },
+      {
+        "word": "convergee",
+        "entered_at": 10,
+        "survived_iterations": 0
+      },
+      {
+        "word": "entiely",
+        "entered_at": 10,
+        "survived_iterations": 0
+      },
+      {
+        "word": "thse",
+        "entered_at": 10,
+        "survived_iterations": 0
+      }
+    ]
+  },
+  "cost": {
+    "tts_chars": 8967,
+    "stt_seconds": 593.0,
+    "tts_usd": 0.269,
+    "stt_usd": 0.0761,
+    "total_usd": 0.3451
+  },
+  "series": {
+    "wer_vs_prev": [
+      0.012987012987012988,
+      0.013071895424836602,
+      0.032679738562091505,
+      0.02666666666666667,
+      0.033783783783783786,
+      0.02054794520547945,
+      0.034482758620689655,
+      0.013986013986013986,
+      0.03496503496503497,
+      0.056338028169014086
+    ],
+    "wer_vs_seed": [
+      0.012987012987012988,
+      0.025974025974025976,
+      0.05844155844155844,
+      0.08441558441558442,
+      0.1038961038961039,
+      0.11038961038961038,
+      0.14285714285714285,
+      0.15584415584415584,
+      0.18831168831168832,
+      0.21428571428571427
+    ],
+    "cer_vs_seed": [
+      0.006507592190889371,
+      0.008676789587852495,
+      0.020607375271149676,
+      0.028199566160520606,
+      0.0368763557483731,
+      0.04121475054229935,
+      0.049891540130151846,
+      0.052060737527114966,
+      0.05856832971800434,
+      0.07158351409978309
+    ],
+    "jaccard_vs_seed": [
+      0.98,
+      0.9411764705882353,
+      0.9038461538461539,
+      0.8857142857142857,
+      0.8679245283018868,
+      0.8504672897196262,
+      0.7909090909090909,
+      0.7678571428571429,
+      0.7241379310344828,
+      0.6923076923076923
+    ],
+    "cosine_vs_seed": [
+      0.9978098450659412,
+      0.9944331620031123,
+      0.9892174804526113,
+      0.9800098678255825,
+      0.974764923949977,
+      0.9754177662977636,
+      0.9662164567321779,
+      0.9629118229848026,
+      0.9512054350701533,
+      0.9299754423146187
+    ],
+    "mean_confidence": [
+      0.9686465213523545,
+      0.9653231011831027,
+      0.964613229771647,
+      0.9658291268894694,
+      0.9632690828040201,
+      0.9651001889982089,
+      0.9626307750299055,
+      0.9666374199472878,
+      0.9599917744475487,
+      0.9544881176808874
+    ],
+    "tokens": [
+      153,
+      153,
+      150,
+      148,
+      146,
+      145,
+      143,
+      143,
+      142,
+      140
+    ],
+    "type_token_ratio": [
+      0.6470588235294118,
+      0.6470588235294118,
+      0.66,
+      0.668918918918919,
+      0.678082191780822,
+      0.6827586206896552,
+      0.6853146853146853,
+      0.6923076923076923,
+      0.7112676056338029,
+      0.7071428571428572
+    ],
+    "punct_per_100_tokens": [
+      11.11111111111111,
+      11.11111111111111,
+      11.333333333333334,
+      11.486486486486486,
+      11.643835616438356,
+      11.724137931034482,
+      11.888111888111888,
+      11.888111888111888,
+      11.971830985915492,
+      12.142857142857142
+    ],
+    "audio_seconds": [
+      61.726125,
+      61.3415,
+      61.3415,
+      60.187666666666665,
+      59.418458333333334,
+      58.649208333333334,
+      58.264583333333334,
+      57.495375,
+      57.495375,
+      57.11075
+    ]
+  },
+  "substitution_ledger": [
+    {
+      "heard_as": "four",
+      "instead_of": "for",
+      "count": 3
+    },
+    {
+      "heard_as": "for",
+      "instead_of": "four",
+      "count": 3
+    },
+    {
+      "heard_as": "then",
+      "instead_of": "than",
+      "count": 2
+    },
+    {
+      "heard_as": "languae",
+      "instead_of": "language",
+      "count": 1
+    },
+    {
+      "heard_as": "convergece",
+      "instead_of": "convergence",
+      "count": 1
+    },
+    {
+      "heard_as": "bhaving",
+      "instead_of": "behaving",
+      "count": 1
+    },
+    {
+      "heard_as": "paue",
+      "instead_of": "pause",
+      "count": 1
+    },
+    {
+      "heard_as": "vice",
+      "instead_of": "voice",
+      "count": 1
+    },
+    {
+      "heard_as": "whih",
+      "instead_of": "which",
+      "count": 1
+    },
+    {
+      "heard_as": "pipeine",
+      "instead_of": "pipeline",
+      "count": 1
+    },
+    {
+      "heard_as": "acousic",
+      "instead_of": "acoustic",
+      "count": 1
+    },
+    {
+      "heard_as": "asigns",
+      "instead_of": "assigns",
+      "count": 1
+    },
+    {
+      "heard_as": "bfore",
+      "instead_of": "before",
+      "count": 1
+    },
+    {
+      "heard_as": "modl",
+      "instead_of": "model",
+      "count": 1
+    },
+    {
+      "heard_as": "simly",
+      "instead_of": "simply",
+      "count": 1
+    },
+    {
+      "heard_as": "sustitution",
+      "instead_of": "substitution",
+      "count": 1
+    },
+    {
+      "heard_as": "towad",
+      "instead_of": "toward",
+      "count": 1
+    },
+    {
+      "heard_as": "resut",
+      "instead_of": "result",
+      "count": 1
+    },
+    {
+      "heard_as": "acusic",
+      "instead_of": "acousic",
+      "count": 1
+    },
+    {
+      "heard_as": "thse",
+      "instead_of": "those",
+      "count": 1
+    },
+    {
+      "heard_as": "entiely",
+      "instead_of": "entirely",
+      "count": 1
+    },
+    {
+      "heard_as": "convergee",
+      "instead_of": "convergece",
+      "count": 1
+    }
+  ],
+  "seed_text": "The acoustic model assigns a posterior over phoneme sequences, and the language model reweights that posterior toward sequences it has seen before. Decoding is the argmax over the product. Nothing in this pipeline has a representation for emphasis, for a held vowel, for a pause used as punctuation, and so those quantities are not degraded during decoding; they are absent from the search space entirely.\nObserve that the resulting error is not symmetric. A rare word is replaced by a common one far more often than the reverse, because the prior is a distribution over a corpus and the corpus is not you. Iterate the substitution and the text migrates monotonically toward the high-probability region, which is to say toward the mean of everything the model was trained on.\nThis is a convergence result rather than a failure mode. The system is behaving as specified. The specification simply did not include your voice.",
+  "final_text": "The acusic model asigns a posterior over phoneme sequences, and languae modl reweights that posterior toward sequences it has seen bfore. Decoding the argmax over the product. Nothing in this pipeine has a representation for emphasis, for a held vowel, for a paue used as punctuation, and thse quantities are not degraded during decoding, they are absent from search space entiely. Observe that resulting error is not symmetric. Rare word is replaced by a common one far more often then the reverse, because the prior is distribution over corpus and corpus not you. Iterate sustitution and the text migrates monotonically toward the high-probability region, whih is say towad mean of everything the model was trained on. This is a convergee resut rather then failure mode. The system is bhaving as specified. The specification simly did not include your vice.",
+  "total_drift_from_seed": 0.21428571428571427,
+  "final_delta": 0.056338028169014086
+}
