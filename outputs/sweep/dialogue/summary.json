@@ -1,32 +1,21 @@
 {
   "seed_path": "seeds/dialogue.txt",
-  "iterations_run": 10,
+  "iterations_run": 3,
   "iterations_requested": 25,
-  "elapsed_seconds": 231.44309091567993,
+  "elapsed_seconds": 106.38395404815674,
   "voice": "aura-2-thalia-en",
   "listen_model": "nova-3",
   "smart_format": true,
   "room_active": false,
   "convergence": {
     "status": "fixed_point",
-    "fixed_point_at": 9,
+    "fixed_point_at": 2,
     "cycle": null,
     "deltas": [
       0.0,
       0.0,
-      0.0,
-      0.0,
-      0.0078125,
-      0.0,
-      0.0078125,
-      0.0078125,
-      0.0,
       0.0
-    ],
-    "early_mean_delta": 0.0,
-    "late_mean_delta": 0.0026041666666666665,
-    "decay_ratio": NaN,
-    "contracting": false
+    ]
   },
   "authorship": {
     "machine_share": 0.0,
@@ -37,57 +26,29 @@
     "machine_words": []
   },
   "cost": {
-    "tts_chars": 6460,
-    "stt_seconds": 496.1,
-    "tts_usd": 0.1938,
-    "stt_usd": 0.0637,
-    "total_usd": 0.2575
+    "tts_chars": 1956,
+    "stt_seconds": 145.2,
+    "tts_usd": 0.0587,
+    "stt_usd": 0.0186,
+    "total_usd": 0.0773
   },
   "series": {
     "wer_vs_prev": [
       0.0,
-      0.0,
-      0.0,
-      0.0,
-      0.0078125,
-      0.0,
-      0.0078125,
-      0.0078125,
       0.0,
       0.0
     ],
     "wer_vs_seed": [
       0.0,
       0.0,
-      0.0,
-      0.0,
-      0.0078125,
-      0.0078125,
-      0.015625,
-      0.0078125,
-      0.0078125,
-      0.0078125
+      0.0
     ],
     "cer_vs_seed": [
-      0.04477611940298507,
-      0.049253731343283584,
       0.050746268656716415,
-      0.05223880597014925,
-      0.058208955223880594,
-      0.05970149253731343,
-      0.0626865671641791,
-      0.05970149253731343,
-      0.05970149253731343,
-      0.05970149253731343
+      0.050746268656716415,
+      0.050746268656716415
     ],
     "jaccard_vs_seed": [
-      1.0,
-      1.0,
-      1.0,
-      1.0,
-      1.0,
-      1.0,
-      0.9855072463768116,
       1.0,
       1.0,
       1.0
@@ -95,35 +56,14 @@
     "cosine_vs_seed": [
       0.9999999999999999,
       0.9999999999999999,
-      0.9999999999999999,
-      0.9999999999999999,
-      0.9977851578566088,
-      0.9977851578566088,
-      0.9955481485674694,
-      0.9977851578566088,
-      0.9977851578566088,
-      0.9977851578566088
+      0.9999999999999999
     ],
     "mean_confidence": [
-      0.9859053296093749,
-      0.9882265721875,
-      0.988604226953125,
-      0.982939401796875,
-      0.989395776796875,
-      0.9865652717187501,
-      0.9870662690625001,
-      0.9887237532812501,
-      0.9913419095312501,
-      0.9911766049218751
+      0.986695289453125,
+      0.990365380078125,
+      0.9847060053125001
     ],
     "tokens": [
-      128,
-      128,
-      128,
-      128,
-      128,
-      128,
-      128,
       128,
       128,
       128
@@ -131,59 +71,22 @@
     "type_token_ratio": [
       0.53125,
       0.53125,
-      0.53125,
-      0.53125,
-      0.53125,
-      0.53125,
-      0.5390625,
-      0.53125,
-      0.53125,
       0.53125
     ],
     "punct_per_100_tokens": [
-      22.65625,
       23.4375,
-      24.21875,
-      24.21875,
-      24.21875,
-      24.21875,
-      25.0,
-      24.21875,
-      24.21875,
-      24.21875
+      23.4375,
+      23.4375
     ],
     "audio_seconds": [
-      43.5,
-      49.38,
-      49.4,
-      51.18,
-      50.32,
-      51.36,
-      50.32,
-      50.48,
-      49.84,
-      50.36
+      43.86,
+      50.66,
+      50.7
     ]
   },
-  "substitution_ledger": [
-    {
-      "heard_as": "and",
-      "instead_of": "then",
-      "count": 1
-    },
-    {
-      "heard_as": "i'd",
-      "instead_of": "i",
-      "count": 1
-    },
-    {
-      "heard_as": "i",
-      "instead_of": "i'd",
-      "count": 1
-    }
-  ],
+  "substitution_ledger": [],
   "seed_text": "\"Say that again?\"\n\"I said the tape is running.\"\n\"No, before that. You said something about the room.\"\n\"I said the room is doing most of the work.\"\n\"That's not what I heard. I heard you say the room is doing more of the work, which is a different claim.\"\n\"Then write down what you heard.\"\n\"I did. That's the problem.\"\n\"Read it back to me.\"\n\"It says: the room is doing more of the work. It says it flatly, as if neither of us hesitated.\"\n\"And where did the hesitation go?\"\n\"Into the part that isn't written down.\"\n\"Then say it again, and this time hesitate louder.\"\n\"You can't hesitate louder.\"\n\"No. But it will look the same either way, so it hardly matters what you do.\"",
-  "final_text": "Say that again. I said the tape is running. No. Before that, you said something about the room. I said the room is doing most of the work. That's not what I heard. I heard you say, the room is doing more of the work, which is a different claim. Then write down what you heard. I did. That's the problem. Read it back to me. It says, the room is doing more of the work. It says it flatly, as if neither of us hesitated. And where did the hesitation go? Into the part that isn't written down. And say it again. And this time, hesitate louder. You can't hesitate louder. No. But it will look the same either way. So it hardly matters what you do.",
-  "total_drift_from_seed": 0.0078125,
+  "final_text": "Say that again? I said the tape is running. No. Before that, you said something about the room. I said the room is doing most of the work. That's not what I heard. I heard you say the room is doing more of the work, which is a different claim. Then write down what you heard. I did. That's the problem. Read it back to me. It says, the room is doing more of the work. It says it flatly, as if neither of us hesitated. And where did the hesitation go? Into the part that isn't written down. Then say it again. And this time, hesitate louder. You can't hesitate louder. No. But it will look the same either way. So it hardly matters what you do.",
+  "total_drift_from_seed": 0.0,
   "final_delta": 0.0
 }

@@ -2,92 +2,84 @@
   "seed_path": "seeds/plain.txt",
   "iterations_run": 5,
   "iterations_requested": 25,
-  "elapsed_seconds": 102.7363109588623,
+  "elapsed_seconds": 136.09218883514404,
   "voice": "aura-2-thalia-en",
   "listen_model": "nova-3",
   "smart_format": true,
   "room_active": false,
   "convergence": {
     "status": "fixed_point",
-    "fixed_point_at": 4,
+    "fixed_point_at": 2,
     "cycle": null,
     "deltas": [
-      0.014925373134328358,
+      0.0,
       0.0,
       0.0,
       0.0,
       0.0
     ],
-    "early_mean_delta": 0.007462686567164179,
+    "early_mean_delta": 0.0,
     "late_mean_delta": 0.0,
-    "decay_ratio": 0.0,
-    "contracting": true
+    "decay_ratio": NaN,
+    "contracting": false
   },
   "authorship": {
-    "machine_share": 0.007462686567164179,
-    "human_share": 0.9925373134328358,
-    "machine_vocab_size": 1,
-    "seed_words_lost": 1,
-    "seed_words_lost_list": [
-      "i'm"
-    ],
-    "machine_words": [
-      {
-        "word": "might",
-        "entered_at": 1,
-        "survived_iterations": 4
-      }
-    ]
+    "machine_share": 0.0,
+    "human_share": 1.0,
+    "machine_vocab_size": 0,
+    "seed_words_lost": 0,
+    "seed_words_lost_list": [],
+    "machine_words": []
   },
   "cost": {
-    "tts_chars": 3289,
-    "stt_seconds": 234.2,
-    "tts_usd": 0.0987,
-    "stt_usd": 0.0301,
+    "tts_chars": 3292,
+    "stt_seconds": 233.4,
+    "tts_usd": 0.0988,
+    "stt_usd": 0.03,
     "total_usd": 0.1287
   },
   "series": {
     "wer_vs_prev": [
-      0.014925373134328358,
+      0.0,
       0.0,
       0.0,
       0.0,
       0.0
     ],
     "wer_vs_seed": [
-      0.014925373134328358,
-      0.014925373134328358,
-      0.014925373134328358,
-      0.014925373134328358,
-      0.014925373134328358
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
     ],
     "cer_vs_seed": [
-      0.016666666666666666,
-      0.01818181818181818,
-      0.019696969696969695,
-      0.019696969696969695,
-      0.019696969696969695
+      0.00909090909090909,
+      0.00909090909090909,
+      0.010606060606060607,
+      0.010606060606060607,
+      0.010606060606060607
     ],
     "jaccard_vs_seed": [
-      0.9761904761904762,
-      0.9761904761904762,
-      0.9761904761904762,
-      0.9761904761904762,
-      0.9761904761904762
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0
     ],
     "cosine_vs_seed": [
-      0.9955599463858928,
-      0.9955599463858928,
-      0.9955599463858928,
-      0.9955599463858928,
-      0.9955599463858928
+      1.0000000000000002,
+      1.0000000000000002,
+      1.0000000000000002,
+      1.0000000000000002,
+      1.0000000000000002
     ],
     "mean_confidence": [
-      0.9807754438059703,
-      0.9911161964925372,
-      0.9885253902238806,
-      0.9913135737313433,
-      0.992406740597015
+      0.9875555087313435,
+      0.9903248658955225,
+      0.988867916119403,
+      0.9919002398507464,
+      0.9923496536567165
     ],
     "tokens": [
       134,
@@ -104,34 +96,23 @@
       0.6194029850746269
     ],
     "punct_per_100_tokens": [
-      19.402985074626866,
       20.149253731343283,
-      19.402985074626866,
-      19.402985074626866,
-      19.402985074626866
+      20.149253731343283,
+      20.149253731343283,
+      20.149253731343283,
+      20.149253731343283
     ],
     "audio_seconds": [
-      46.98,
-      47.76,
-      47.86,
-      45.92,
-      45.72
+      48.38,
+      45.86,
+      45.7,
+      46.76,
+      46.68
     ]
   },
-  "substitution_ledger": [
-    {
-      "heard_as": "i",
-      "instead_of": "i'm",
-      "count": 1
-    },
-    {
-      "heard_as": "might",
-      "instead_of": "like",
-      "count": 1
-    }
-  ],
+  "substitution_ledger": [],
   "seed_text": "So anyway, I was going to say, and this is probably nothing, but I noticed the other day that when I read something back that got written down for me, it sounds like a person who agrees with me about everything.\nWhich is not what I'm like. I hedge. I stop in the middle. I say \"sort of\" a lot, and then I take it back.\nNone of that survives. It comes back tidy. It comes back like I knew where the sentence was going when I started it, and I didn't, I never do.\nI don't think anyone did this on purpose. That's sort of the thing. There's no one to be annoyed at. It just tidies, because tidying is what it's for, and the tidy version is the one that gets kept.",
-  "final_text": "So, anyway, I was going to say, and this is probably nothing. But I noticed the other day that when I read something back that got written down for me, it sounds like a person who agrees with me about everything, which is not what I might. I hedge. I stop in the middle. I say sort of a lot, and then I take it back. None of that survives. It comes back tidy. It comes back like I knew where the sentence was going when I started it, and I didn't. I never do. I don't think anyone did this on purpose. That's sort of the thing. There's no one to be annoyed at. It just tidies because tidying is what it's for, and the tidy version is the one that gets kept.",
-  "total_drift_from_seed": 0.014925373134328358,
+  "final_text": "So, anyway, I was going to say, and this is probably nothing. But I noticed the other day that when I read something back that got written down for me, it sounds like a person who agrees with me about everything, which is not what I'm like. I hedge. I stop in the middle. I say sort of a lot, and then I take it back. None of that survives. It comes back tidy. It comes back like I knew where the sentence was going when I started it, and I didn't. I never do. I don't think anyone did this on purpose. That's sort of the thing. There's no one to be annoyed at. It just tidies because tidying is what it's for, and the tidy version is the one that gets kept.",
+  "total_drift_from_seed": 0.0,
   "final_delta": 0.0
 }

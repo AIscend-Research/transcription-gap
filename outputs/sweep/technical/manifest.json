@@ -2,7 +2,7 @@
   "config": {
     "seed_path": "seeds/technical.txt",
     "out_dir": "outputs/sweep/technical",
-    "iterations": 10,
+    "iterations": 25,
     "keep_audio": true,
     "stop_on_fixed_point": true,
     "fixed_point_patience": 2,
@@ -47,61 +47,55 @@
       "index": 1,
       "text_path": "iterations/01.txt",
       "audio_path": "01.wav",
-      "tokens": 153
+      "tokens": 154
     },
     {
       "index": 2,
       "text_path": "iterations/02.txt",
       "audio_path": "02.wav",
-      "tokens": 153
+      "tokens": 155
     },
     {
       "index": 3,
       "text_path": "iterations/03.txt",
       "audio_path": "03.wav",
-      "tokens": 150
+      "tokens": 155
     },
     {
       "index": 4,
       "text_path": "iterations/04.txt",
       "audio_path": "04.wav",
-      "tokens": 148
+      "tokens": 154
     },
     {
       "index": 5,
       "text_path": "iterations/05.txt",
       "audio_path": "05.wav",
-      "tokens": 146
+      "tokens": 154
     },
     {
       "index": 6,
       "text_path": "iterations/06.txt",
       "audio_path": "06.wav",
-      "tokens": 145
+      "tokens": 155
     },
     {
       "index": 7,
       "text_path": "iterations/07.txt",
       "audio_path": "07.wav",
-      "tokens": 143
+      "tokens": 154
     },
     {
       "index": 8,
       "text_path": "iterations/08.txt",
       "audio_path": "08.wav",
-      "tokens": 143
+      "tokens": 154
     },
     {
       "index": 9,
       "text_path": "iterations/09.txt",
       "audio_path": "09.wav",
-      "tokens": 142
-    },
-    {
-      "index": 10,
-      "text_path": "iterations/10.txt",
-      "audio_path": "10.wav",
-      "tokens": 140
+      "tokens": 154
     }
   ]
 }

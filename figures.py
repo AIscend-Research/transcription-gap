@@ -109,7 +109,9 @@ def fig_confidence(s: dict, out: pathlib.Path) -> pathlib.Path:
     ax.set_xlabel("iteration")
     ax.set_ylabel("value")
     ax.set_ylim(0, 1)
-    ax.set_title("Confidence rises as the score recedes")
+    # The measured behaviour is flat certainty, not rising certainty -- the
+    # title states what the axes show rather than what we expected to see.
+    ax.set_title("Certainty is constant while the score recedes")
     return finish(fig, ax, out, "confidence", legend=True)
 
 
@@ -129,7 +131,7 @@ def fig_discarded(s: dict, out: pathlib.Path) -> pathlib.Path:
     twin.tick_params(axis="y", labelcolor=HUMAN)
     twin.grid(False)
     twin.spines["top"].set_visible(False)
-    ax.set_title("The discarded half")
+    ax.set_title("Punctuation and lexical variety")
     return finish(fig, ax, out, "discarded")
 
 

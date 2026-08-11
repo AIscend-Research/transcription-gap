@@ -1,122 +1,222 @@
 {
   "seed_path": "seeds/credits.txt",
-  "iterations_run": 4,
+  "iterations_run": 12,
   "iterations_requested": 25,
-  "elapsed_seconds": 106.07911705970764,
+  "elapsed_seconds": 528.0363531112671,
   "voice": "aura-2-thalia-en",
   "listen_model": "nova-3",
   "smart_format": true,
   "room_active": false,
   "convergence": {
     "status": "fixed_point",
-    "fixed_point_at": 3,
+    "fixed_point_at": 7,
     "cycle": null,
     "deltas": [
+      0.006493506493506494,
+      0.006493506493506494,
       0.012987012987012988,
-      0.012987012987012988,
+      0.006535947712418301,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.006535947712418301,
       0.0,
       0.0
     ],
-    "early_mean_delta": 0.012987012987012988,
-    "late_mean_delta": 0.0,
-    "decay_ratio": 0.0,
-    "contracting": true
+    "early_mean_delta": 0.008127493421611068,
+    "late_mean_delta": 0.0016339869281045752,
+    "decay_ratio": 0.2010443864229765,
+    "contracting": true,
+    "projected_steps_to_fixed_point": 2.4486420471004036
   },
   "authorship": {
-    "machine_share": 0.0196078431372549,
-    "human_share": 0.9803921568627451,
-    "machine_vocab_size": 3,
-    "seed_words_lost": 3,
+    "machine_share": 0.032679738562091505,
+    "human_share": 0.9673202614379085,
+    "machine_vocab_size": 5,
+    "seed_words_lost": 4,
     "seed_words_lost_list": [
       "here",
-      "never",
+      "line",
+      "meant",
       "recogniser"
     ],
     "machine_words": [
       {
-        "word": "neither",
-        "entered_at": 1,
-        "survived_iterations": 3
-      },
-      {
         "word": "recognizer",
         "entered_at": 1,
-        "survived_iterations": 3
+        "survived_iterations": 11
+      },
+      {
+        "word": "towel",
+        "entered_at": 2,
+        "survived_iterations": 10
       },
       {
         "word": "here's",
-        "entered_at": 2,
+        "entered_at": 3,
+        "survived_iterations": 9
+      },
+      {
+        "word": "mind",
+        "entered_at": 4,
+        "survived_iterations": 8
+      },
+      {
+        "word": "met",
+        "entered_at": 10,
         "survived_iterations": 2
       }
     ]
   },
   "cost": {
-    "tts_chars": 3318,
-    "stt_seconds": 233.9,
-    "tts_usd": 0.0995,
-    "stt_usd": 0.03,
-    "total_usd": 0.1296
+    "tts_chars": 9955,
+    "stt_seconds": 716.8,
+    "tts_usd": 0.2986,
+    "stt_usd": 0.092,
+    "total_usd": 0.3906
   },
   "series": {
     "wer_vs_prev": [
+      0.006493506493506494,
+      0.006493506493506494,
       0.012987012987012988,
-      0.012987012987012988,
+      0.006535947712418301,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.006535947712418301,
       0.0,
       0.0
     ],
     "wer_vs_seed": [
+      0.006493506493506494,
       0.012987012987012988,
       0.025974025974025976,
-      0.025974025974025976,
-      0.025974025974025976
+      0.032467532467532464,
+      0.032467532467532464,
+      0.032467532467532464,
+      0.032467532467532464,
+      0.032467532467532464,
+      0.032467532467532464,
+      0.03896103896103896,
+      0.03896103896103896,
+      0.03896103896103896
     ],
     "cer_vs_seed": [
-      0.00847457627118644,
+      0.004842615012106538,
+      0.009685230024213076,
+      0.012106537530266344,
       0.014527845036319613,
-      0.014527845036319613,
-      0.014527845036319613
+      0.01694915254237288,
+      0.018159806295399514,
+      0.018159806295399514,
+      0.01937046004842615,
+      0.018159806295399514,
+      0.021791767554479417,
+      0.021791767554479417,
+      0.021791767554479417
     ],
     "jaccard_vs_seed": [
-      0.9550561797752809,
-      0.9333333333333333,
-      0.9333333333333333,
-      0.9333333333333333
+      0.9772727272727273,
+      0.9662921348314607,
+      0.9444444444444444,
+      0.9230769230769231,
+      0.9230769230769231,
+      0.9230769230769231,
+      0.9230769230769231,
+      0.9230769230769231,
+      0.9230769230769231,
+      0.9021739130434783,
+      0.9021739130434783,
+      0.9021739130434783
     ],
     "cosine_vs_seed": [
-      0.9973404255319149,
-      0.9953935067958175,
-      0.9953935067958175,
-      0.9953935067958175
+      0.9986702127659575,
+      0.9973377683179732,
+      0.9954092876677029,
+      0.9940568293964152,
+      0.9940568293964152,
+      0.9940568293964152,
+      0.9940568293964152,
+      0.9940568293964152,
+      0.9940568293964152,
+      0.9927043711251275,
+      0.9927043711251275,
+      0.9927043711251275
     ],
     "mean_confidence": [
-      0.9899844220129871,
-      0.9850457235294119,
-      0.9874461729411764,
-      0.9866094994771242
+      0.9889016429220778,
+      0.9891658640909091,
+      0.9943078650326798,
+      0.9910561562091502,
+      0.9887110238562091,
+      0.9886727486274508,
+      0.9898104540522876,
+      0.9898989585620916,
+      0.9900928905882352,
+      0.9892442497385622,
+      0.987847755620915,
+      0.9908624374509805
     ],
     "tokens": [
       154,
+      154,
+      153,
+      153,
+      153,
+      153,
+      153,
+      153,
+      153,
       153,
       153,
       153
     ],
     "type_token_ratio": [
       0.564935064935065,
-      0.5686274509803921,
-      0.5686274509803921,
-      0.5686274509803921
+      0.5714285714285714,
+      0.5751633986928104,
+      0.5751633986928104,
+      0.5751633986928104,
+      0.5751633986928104,
+      0.5751633986928104,
+      0.5751633986928104,
+      0.5751633986928104,
+      0.5751633986928104,
+      0.5751633986928104,
+      0.5751633986928104
     ],
     "punct_per_100_tokens": [
       14.285714285714286,
-      16.33986928104575,
-      16.33986928104575,
-      16.33986928104575
+      14.935064935064934,
+      15.686274509803921,
+      15.686274509803921,
+      16.99346405228758,
+      16.99346405228758,
+      16.99346405228758,
+      16.99346405228758,
+      16.99346405228758,
+      16.99346405228758,
+      16.99346405228758,
+      16.99346405228758
     ],
     "audio_seconds": [
-      55.72,
-      59.58,
-      58.64,
-      59.96
+      57.96,
+      58.02,
+      58.96,
+      59.04,
+      60.12,
+      58.96,
+      61.5,
+      60.22,
+      60.66,
+      59.86,
+      60.42,
+      61.1
     ]
   },
   "substitution_ledger": [
@@ -126,18 +226,28 @@
       "count": 1
     },
     {
-      "heard_as": "neither",
-      "instead_of": "never",
+      "heard_as": "towel",
+      "instead_of": "tell",
       "count": 1
     },
     {
       "heard_as": "here's",
       "instead_of": "is",
       "count": 1
+    },
+    {
+      "heard_as": "mind",
+      "instead_of": "line",
+      "count": 1
+    },
+    {
+      "heard_as": "met",
+      "instead_of": "meant",
+      "count": 1
     }
   ],
   "seed_text": "Every transcript is a collaboration that only one party gets credited for.\nThe recogniser is not a window. It has a prior, which is to say it has taste, which is to say it has a preference about how a sentence should end.\nWhen it is uncertain it does not tell you it is uncertain. It picks the likelier word and hands you a clean line, and the cleanliness is the tell.\nAsk who wrote the resulting document and the answer is the speaker, always the speaker, never the model that decided which of two homophones the speaker must have meant.\nSo here is the accounting. Feed the transcript back in as the script. Perform it. Transcribe it again. Do this until the drift stops.\nWhatever text is standing at the end belongs to whichever party could not stop editing.\nThat is not a metaphor. It is a measurement, and it has a number.",
-  "final_text": "Every transcript is a collaboration that only one party gets credited for. The recognizer is not a window. It has a prior, which is to say, it has taste, which is to say it has a preference about how a sentence should end. When it is uncertain, it does not tell you it is uncertain. It picks the likelier word and hands you a clean line, and the cleanliness is the tell. Ask who wrote the resulting document, and the answer is the speaker. Always the speaker. Neither the model that decided which of two homophones the speaker must have meant. So, here's the accounting. Feed the transcript back in as the script. Perform it. Transcribe it again. Do this until the drift stops. Whatever text is standing at the end belongs to whichever party could not stop editing. That is not a metaphor. It is a measurement, and it has a number.",
-  "total_drift_from_seed": 0.025974025974025976,
+  "final_text": "Every transcript is a collaboration that only one party gets credited for. The recognizer is not a window. It has a prior, which is to say, it has taste, which is to say, it has a preference about how a sentence should end. When it is uncertain, it does not tell you it is uncertain. It picks the likelier word and hands you a clean mind. And the cleanliness is the towel. Ask who wrote the resulting document. And the answer is the speaker. Always the speaker. Never the model that decided which of two homophones the speaker must have met. So, here's the accounting. Feed the transcript back in as the script. Perform it. Transcribe it again. Do this until the drift stops. Whatever text is standing at the end belongs to whichever party could not stop editing. That is not a metaphor. It is a measurement, and it has a number.",
+  "total_drift_from_seed": 0.03896103896103896,
   "final_delta": 0.0
 }

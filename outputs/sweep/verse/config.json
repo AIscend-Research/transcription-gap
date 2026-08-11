@@ -1,7 +1,7 @@
 {
   "seed_path": "seeds/verse.txt",
   "out_dir": "outputs/sweep/verse",
-  "iterations": 10,
+  "iterations": 25,
   "keep_audio": true,
   "stop_on_fixed_point": true,
   "fixed_point_patience": 2,

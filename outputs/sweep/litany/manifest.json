@@ -89,109 +89,13 @@
       "index": 8,
       "text_path": "iterations/08.txt",
       "audio_path": "08.wav",
-      "tokens": 127
+      "tokens": 128
     },
     {
       "index": 9,
       "text_path": "iterations/09.txt",
       "audio_path": "09.wav",
-      "tokens": 127
-    },
-    {
-      "index": 10,
-      "text_path": "iterations/10.txt",
-      "audio_path": "10.wav",
-      "tokens": 127
-    },
-    {
-      "index": 11,
-      "text_path": "iterations/11.txt",
-      "audio_path": "11.wav",
-      "tokens": 127
-    },
-    {
-      "index": 12,
-      "text_path": "iterations/12.txt",
-      "audio_path": "12.wav",
-      "tokens": 127
-    },
-    {
-      "index": 13,
-      "text_path": "iterations/13.txt",
-      "audio_path": "13.wav",
-      "tokens": 127
-    },
-    {
-      "index": 14,
-      "text_path": "iterations/14.txt",
-      "audio_path": "14.wav",
-      "tokens": 127
-    },
-    {
-      "index": 15,
-      "text_path": "iterations/15.txt",
-      "audio_path": "15.wav",
-      "tokens": 126
-    },
-    {
-      "index": 16,
-      "text_path": "iterations/16.txt",
-      "audio_path": "16.wav",
-      "tokens": 126
-    },
-    {
-      "index": 17,
-      "text_path": "iterations/17.txt",
-      "audio_path": "17.wav",
-      "tokens": 124
-    },
-    {
-      "index": 18,
-      "text_path": "iterations/18.txt",
-      "audio_path": "18.wav",
-      "tokens": 124
-    },
-    {
-      "index": 19,
-      "text_path": "iterations/19.txt",
-      "audio_path": "19.wav",
-      "tokens": 124
-    },
-    {
-      "index": 20,
-      "text_path": "iterations/20.txt",
-      "audio_path": "20.wav",
-      "tokens": 124
-    },
-    {
-      "index": 21,
-      "text_path": "iterations/21.txt",
-      "audio_path": "21.wav",
-      "tokens": 124
-    },
-    {
-      "index": 22,
-      "text_path": "iterations/22.txt",
-      "audio_path": "22.wav",
-      "tokens": 124
-    },
-    {
-      "index": 23,
-      "text_path": "iterations/23.txt",
-      "audio_path": "23.wav",
-      "tokens": 124
-    },
-    {
-      "index": 24,
-      "text_path": "iterations/24.txt",
-      "audio_path": "24.wav",
-      "tokens": 125
-    },
-    {
-      "index": 25,
-      "text_path": "iterations/25.txt",
-      "audio_path": "25.wav",
-      "tokens": 126
+      "tokens": 128
     }
   ]
 }

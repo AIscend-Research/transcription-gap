@@ -103,7 +103,7 @@
   <p class="sub">aura-2-thalia-en performing &middot; nova-3 listening &middot; smart_format=on</p>
   <p class="lede">A spoken-word score is performed, transcribed, and the transcript becomes the score for the next performance. Nothing is edited by hand. Every difference below was introduced by the speech recogniser: mishearings, dropped phrasing, silent grammatical corrections, accumulating across iterations the way a generative image loop collapses into its own house style. The question the numbers are asked to answer is not how wrong the machine is. It is whose text this ends up being.</p>
 
-  <div class="tiles"><div class="tile"><div class="k">iterations</div><div class="v">10</div><div class="n">of 25 requested</div></div><div class="tile"><div class="k">drift from score</div><div class="v">0.008</div><div class="n">word error rate, final vs. seed</div></div><div class="tile"><div class="k">last step</div><div class="v">0.000</div><div class="n">WER between the last two takes</div></div><div class="tile"><div class="k">outcome</div><div class="v">fixed point</div><div class="n">identical from iteration 9</div></div><div class="tile"><div class="k">transcriber's share</div><div class="v">0.0%</div><div class="n">0 of 128 final tokens</div></div><div class="tile"><div class="k">score words lost</div><div class="v">0</div><div class="n">never heard again</div></div></div>
+  <div class="tiles"><div class="tile"><div class="k">iterations</div><div class="v">3</div><div class="n">of 25 requested</div></div><div class="tile"><div class="k">drift from score</div><div class="v">0.000</div><div class="n">word error rate, final vs. seed</div></div><div class="tile"><div class="k">last step</div><div class="v">0.000</div><div class="n">WER between the last two takes</div></div><div class="tile"><div class="k">outcome</div><div class="v">fixed point</div><div class="n">identical from iteration 2</div></div><div class="tile"><div class="k">transcriber's share</div><div class="v">0.0%</div><div class="n">0 of 128 final tokens</div></div><div class="tile"><div class="k">score words lost</div><div class="v">0</div><div class="n">never heard again</div></div></div>
 
   <h2>Drift</h2>
   <p class="muted">Word error rate against the previous iteration (how fast the text is
@@ -115,7 +115,7 @@
       <span><i class="swatch" style="background:var(--series-2)"></i>vs. original score</span>
     </div>
     <div class="chart" id="c-drift"></div>
-    <details><summary>Table view</summary><div class="scroll"><table><thead><tr><th>iter</th><th>WER vs prev</th><th>WER vs score</th><th>CER vs score</th></tr></thead><tbody><tr><td>1</td><td>0.0000</td><td>0.0000</td><td>0.0448</td></tr><tr><td>2</td><td>0.0000</td><td>0.0000</td><td>0.0493</td></tr><tr><td>3</td><td>0.0000</td><td>0.0000</td><td>0.0507</td></tr><tr><td>4</td><td>0.0000</td><td>0.0000</td><td>0.0522</td></tr><tr><td>5</td><td>0.0078</td><td>0.0078</td><td>0.0582</td></tr><tr><td>6</td><td>0.0000</td><td>0.0078</td><td>0.0597</td></tr><tr><td>7</td><td>0.0078</td><td>0.0156</td><td>0.0627</td></tr><tr><td>8</td><td>0.0078</td><td>0.0078</td><td>0.0597</td></tr><tr><td>9</td><td>0.0000</td><td>0.0078</td><td>0.0597</td></tr><tr><td>10</td><td>0.0000</td><td>0.0078</td><td>0.0597</td></tr></tbody></table></div></details>
+    <details><summary>Table view</summary><div class="scroll"><table><thead><tr><th>iter</th><th>WER vs prev</th><th>WER vs score</th><th>CER vs score</th></tr></thead><tbody><tr><td>1</td><td>0.0000</td><td>0.0000</td><td>0.0507</td></tr><tr><td>2</td><td>0.0000</td><td>0.0000</td><td>0.0507</td></tr><tr><td>3</td><td>0.0000</td><td>0.0000</td><td>0.0507</td></tr></tbody></table></div></details>
   </div>
 
   <h2>Retention and confidence</h2>
@@ -129,7 +129,7 @@
       <span><i class="swatch" style="background:var(--series-3)"></i>mean confidence</span>
     </div>
     <div class="chart" id="c-retain"></div>
-    <details><summary>Table view</summary><div class="scroll"><table><thead><tr><th>iter</th><th>overlap</th><th>cosine</th><th>confidence</th></tr></thead><tbody><tr><td>1</td><td>1.0000</td><td>1.0000</td><td>0.9859</td></tr><tr><td>2</td><td>1.0000</td><td>1.0000</td><td>0.9882</td></tr><tr><td>3</td><td>1.0000</td><td>1.0000</td><td>0.9886</td></tr><tr><td>4</td><td>1.0000</td><td>1.0000</td><td>0.9829</td></tr><tr><td>5</td><td>1.0000</td><td>0.9978</td><td>0.9894</td></tr><tr><td>6</td><td>1.0000</td><td>0.9978</td><td>0.9866</td></tr><tr><td>7</td><td>0.9855</td><td>0.9955</td><td>0.9871</td></tr><tr><td>8</td><td>1.0000</td><td>0.9978</td><td>0.9887</td></tr><tr><td>9</td><td>1.0000</td><td>0.9978</td><td>0.9913</td></tr><tr><td>10</td><td>1.0000</td><td>0.9978</td><td>0.9912</td></tr></tbody></table></div></details>
+    <details><summary>Table view</summary><div class="scroll"><table><thead><tr><th>iter</th><th>overlap</th><th>cosine</th><th>confidence</th></tr></thead><tbody><tr><td>1</td><td>1.0000</td><td>1.0000</td><td>0.9867</td></tr><tr><td>2</td><td>1.0000</td><td>1.0000</td><td>0.9904</td></tr><tr><td>3</td><td>1.0000</td><td>1.0000</td><td>0.9847</td></tr></tbody></table></div></details>
   </div>
 
   <h2>What the transcript cannot hold</h2>
@@ -144,7 +144,7 @@
       <span><i class="swatch" style="background:var(--series-2)"></i>punctuation marks per 100 tokens</span>
     </div>
     <div class="chart" id="c-punct"></div>
-    <details><summary>Table view</summary><div class="scroll"><table><thead><tr><th>iter</th><th>tokens</th><th>TTR</th><th>punct/100</th><th>audio s</th></tr></thead><tbody><tr><td>1</td><td>128</td><td>0.531</td><td>22.66</td><td>43.5</td></tr><tr><td>2</td><td>128</td><td>0.531</td><td>23.44</td><td>49.4</td></tr><tr><td>3</td><td>128</td><td>0.531</td><td>24.22</td><td>49.4</td></tr><tr><td>4</td><td>128</td><td>0.531</td><td>24.22</td><td>51.2</td></tr><tr><td>5</td><td>128</td><td>0.531</td><td>24.22</td><td>50.3</td></tr><tr><td>6</td><td>128</td><td>0.531</td><td>24.22</td><td>51.4</td></tr><tr><td>7</td><td>128</td><td>0.539</td><td>25.00</td><td>50.3</td></tr><tr><td>8</td><td>128</td><td>0.531</td><td>24.22</td><td>50.5</td></tr><tr><td>9</td><td>128</td><td>0.531</td><td>24.22</td><td>49.8</td></tr><tr><td>10</td><td>128</td><td>0.531</td><td>24.22</td><td>50.4</td></tr></tbody></table></div></details>
+    <details><summary>Table view</summary><div class="scroll"><table><thead><tr><th>iter</th><th>tokens</th><th>TTR</th><th>punct/100</th><th>audio s</th></tr></thead><tbody><tr><td>1</td><td>128</td><td>0.531</td><td>23.44</td><td>43.9</td></tr><tr><td>2</td><td>128</td><td>0.531</td><td>23.44</td><td>50.7</td></tr><tr><td>3</td><td>128</td><td>0.531</td><td>23.44</td><td>50.7</td></tr></tbody></table></div></details>
   </div>
 
   <h2>Whose voice</h2>
@@ -162,7 +162,7 @@
   <h2>The ledger</h2>
   <p class="muted">Every word-for-word rewrite, most frequent first. This is the
   transcriber's edit history, the authorship nobody credits.</p>
-  <div class="card"><div class="scroll"><table><thead><tr><th>heard as ← instead of</th><th>count</th></tr></thead><tbody><tr><td><span class="sub-pair"><b>and</b> &larr; then</span></td><td>1</td></tr><tr><td><span class="sub-pair"><b>i'd</b> &larr; i</span></td><td>1</td></tr><tr><td><span class="sub-pair"><b>i</b> &larr; i'd</span></td><td>1</td></tr></tbody></table></div></div>
+  <div class="card"><div class="scroll"><p class="muted">No word-level substitutions recorded.</p></div></div>
 
   <h2>The takes</h2>
   <p class="muted">Each iteration in full. Insertions and deletions are marked
@@ -184,7 +184,7 @@
 </div>
 
 <script>
-const DATA = {"iters": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10], "wer_vs_prev": [0.0, 0.0, 0.0, 0.0, 0.0078125, 0.0, 0.0078125, 0.0078125, 0.0, 0.0], "wer_vs_seed": [0.0, 0.0, 0.0, 0.0, 0.0078125, 0.0078125, 0.015625, 0.0078125, 0.0078125, 0.0078125], "jaccard_vs_seed": [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0.9855072463768116, 1.0, 1.0, 1.0], "cosine_vs_seed": [0.9999999999999999, 0.9999999999999999, 0.9999999999999999, 0.9999999999999999, 0.9977851578566088, 0.9977851578566088, 0.9955481485674694, 0.9977851578566088, 0.9977851578566088, 0.9977851578566088], "mean_confidence": [0.9859053296093749, 0.9882265721875, 0.988604226953125, 0.982939401796875, 0.989395776796875, 0.9865652717187501, 0.9870662690625001, 0.9887237532812501, 0.9913419095312501, 0.9911766049218751], "tokens": [128, 128, 128, 128, 128, 128, 128, 128, 128, 128], "punct": [22.65625, 23.4375, 24.21875, 24.21875, 24.21875, 24.21875, 25.0, 24.21875, 24.21875, 24.21875], "human_tokens": 128, "machine_tokens": 0};
+const DATA = {"iters": [1, 2, 3], "wer_vs_prev": [0.0, 0.0, 0.0], "wer_vs_seed": [0.0, 0.0, 0.0], "jaccard_vs_seed": [1.0, 1.0, 1.0], "cosine_vs_seed": [0.9999999999999999, 0.9999999999999999, 0.9999999999999999], "mean_confidence": [0.986695289453125, 0.990365380078125, 0.9847060053125001], "tokens": [128, 128, 128], "punct": [23.4375, 23.4375, 23.4375], "human_tokens": 128, "machine_tokens": 0};
 
 const css = (n) => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
 const SVGNS = "http://www.w3.org/2000/svg";
