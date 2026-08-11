@@ -1,0 +1,143 @@
+{
+  "seed_path": "seeds/credits.txt",
+  "iterations_run": 4,
+  "iterations_requested": 25,
+  "elapsed_seconds": 106.07911705970764,
+  "voice": "aura-2-thalia-en",
+  "listen_model": "nova-3",
+  "smart_format": true,
+  "room_active": false,
+  "convergence": {
+    "status": "fixed_point",
+    "fixed_point_at": 3,
+    "cycle": null,
+    "deltas": [
+      0.012987012987012988,
+      0.012987012987012988,
+      0.0,
+      0.0
+    ],
+    "early_mean_delta": 0.012987012987012988,
+    "late_mean_delta": 0.0,
+    "decay_ratio": 0.0,
+    "contracting": true
+  },
+  "authorship": {
+    "machine_share": 0.0196078431372549,
+    "human_share": 0.9803921568627451,
+    "machine_vocab_size": 3,
+    "seed_words_lost": 3,
+    "seed_words_lost_list": [
+      "here",
+      "never",
+      "recogniser"
+    ],
+    "machine_words": [
+      {
+        "word": "neither",
+        "entered_at": 1,
+        "survived_iterations": 3
+      },
+      {
+        "word": "recognizer",
+        "entered_at": 1,
+        "survived_iterations": 3
+      },
+      {
+        "word": "here's",
+        "entered_at": 2,
+        "survived_iterations": 2
+      }
+    ]
+  },
+  "cost": {
+    "tts_chars": 3318,
+    "stt_seconds": 233.9,
+    "tts_usd": 0.0995,
+    "stt_usd": 0.03,
+    "total_usd": 0.1296
+  },
+  "series": {
+    "wer_vs_prev": [
+      0.012987012987012988,
+      0.012987012987012988,
+      0.0,
+      0.0
+    ],
+    "wer_vs_seed": [
+      0.012987012987012988,
+      0.025974025974025976,
+      0.025974025974025976,
+      0.025974025974025976
+    ],
+    "cer_vs_seed": [
+      0.00847457627118644,
+      0.014527845036319613,
+      0.014527845036319613,
+      0.014527845036319613
+    ],
+    "jaccard_vs_seed": [
+      0.9550561797752809,
+      0.9333333333333333,
+      0.9333333333333333,
+      0.9333333333333333
+    ],
+    "cosine_vs_seed": [
+      0.9973404255319149,
+      0.9953935067958175,
+      0.9953935067958175,
+      0.9953935067958175
+    ],
+    "mean_confidence": [
+      0.9899844220129871,
+      0.9850457235294119,
+      0.9874461729411764,
+      0.9866094994771242
+    ],
+    "tokens": [
+      154,
+      153,
+      153,
+      153
+    ],
+    "type_token_ratio": [
+      0.564935064935065,
+      0.5686274509803921,
+      0.5686274509803921,
+      0.5686274509803921
+    ],
+    "punct_per_100_tokens": [
+      14.285714285714286,
+      16.33986928104575,
+      16.33986928104575,
+      16.33986928104575
+    ],
+    "audio_seconds": [
+      55.72,
+      59.58,
+      58.64,
+      59.96
+    ]
+  },
+  "substitution_ledger": [
+    {
+      "heard_as": "recognizer",
+      "instead_of": "recogniser",
+      "count": 1
+    },
+    {
+      "heard_as": "neither",
+      "instead_of": "never",
+      "count": 1
+    },
+    {
+      "heard_as": "here's",
+      "instead_of": "is",
+      "count": 1
+    }
+  ],
+  "seed_text": "Every transcript is a collaboration that only one party gets credited for.\nThe recogniser is not a window. It has a prior, which is to say it has taste, which is to say it has a preference about how a sentence should end.\nWhen it is uncertain it does not tell you it is uncertain. It picks the likelier word and hands you a clean line, and the cleanliness is the tell.\nAsk who wrote the resulting document and the answer is the speaker, always the speaker, never the model that decided which of two homophones the speaker must have meant.\nSo here is the accounting. Feed the transcript back in as the script. Perform it. Transcribe it again. Do this until the drift stops.\nWhatever text is standing at the end belongs to whichever party could not stop editing.\nThat is not a metaphor. It is a measurement, and it has a number.",
+  "final_text": "Every transcript is a collaboration that only one party gets credited for. The recognizer is not a window. It has a prior, which is to say, it has taste, which is to say it has a preference about how a sentence should end. When it is uncertain, it does not tell you it is uncertain. It picks the likelier word and hands you a clean line, and the cleanliness is the tell. Ask who wrote the resulting document, and the answer is the speaker. Always the speaker. Neither the model that decided which of two homophones the speaker must have meant. So, here's the accounting. Feed the transcript back in as the script. Perform it. Transcribe it again. Do this until the drift stops. Whatever text is standing at the end belongs to whichever party could not stop editing. That is not a metaphor. It is a measurement, and it has a number.",
+  "total_drift_from_seed": 0.025974025974025976,
+  "final_delta": 0.0
+}

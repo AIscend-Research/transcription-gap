@@ -1,0 +1,132 @@
+{
+  "seed_path": "seeds/lucier.txt",
+  "iterations_run": 3,
+  "iterations_requested": 3,
+  "elapsed_seconds": 77.28507590293884,
+  "voice": "aura-2-thalia-en",
+  "listen_model": "nova-3",
+  "smart_format": true,
+  "room_active": false,
+  "convergence": {
+    "status": "open",
+    "fixed_point_at": null,
+    "cycle": null,
+    "deltas": [
+      0.006172839506172839,
+      0.012345679012345678,
+      0.006172839506172839
+    ]
+  },
+  "authorship": {
+    "machine_share": 0.018518518518518517,
+    "human_share": 0.9814814814814815,
+    "machine_vocab_size": 3,
+    "seed_words_lost": 2,
+    "seed_words_lost_list": [
+      "author",
+      "toward"
+    ],
+    "machine_words": [
+      {
+        "word": "when",
+        "entered_at": 1,
+        "survived_iterations": 2
+      },
+      {
+        "word": "towards",
+        "entered_at": 2,
+        "survived_iterations": 1
+      },
+      {
+        "word": "offer",
+        "entered_at": 3,
+        "survived_iterations": 0
+      }
+    ]
+  },
+  "cost": {
+    "tts_chars": 2503,
+    "stt_seconds": 164.6,
+    "tts_usd": 0.0751,
+    "stt_usd": 0.0211,
+    "total_usd": 0.0962
+  },
+  "series": {
+    "wer_vs_prev": [
+      0.006172839506172839,
+      0.012345679012345678,
+      0.006172839506172839
+    ],
+    "wer_vs_seed": [
+      0.006172839506172839,
+      0.018518518518518517,
+      0.024691358024691357
+    ],
+    "cer_vs_seed": [
+      0.007177033492822967,
+      0.009569377990430622,
+      0.019138755980861243
+    ],
+    "jaccard_vs_seed": [
+      0.9888888888888889,
+      0.967032967032967,
+      0.9456521739130435
+    ],
+    "cosine_vs_seed": [
+      0.9983609093040665,
+      0.9950426815700584,
+      0.9933897867501745
+    ],
+    "mean_confidence": [
+      0.9838329693827159,
+      0.9810622753703704,
+      0.978285552037037
+    ],
+    "tokens": [
+      162,
+      162,
+      162
+    ],
+    "type_token_ratio": [
+      0.5555555555555556,
+      0.5555555555555556,
+      0.5555555555555556
+    ],
+    "punct_per_100_tokens": [
+      11.11111111111111,
+      11.11111111111111,
+      9.876543209876543
+    ],
+    "audio_seconds": [
+      57.4,
+      53.96,
+      53.28
+    ]
+  },
+  "substitution_ledger": [
+    {
+      "heard_as": "when",
+      "instead_of": "what",
+      "count": 1
+    },
+    {
+      "heard_as": "is",
+      "instead_of": "as",
+      "count": 1
+    },
+    {
+      "heard_as": "towards",
+      "instead_of": "toward",
+      "count": 1
+    },
+    {
+      "heard_as": "offer",
+      "instead_of": "author",
+      "count": 1
+    }
+  ],
+  "seed_text": "I am speaking into a machine that is listening.\nI am speaking into a machine that will write down what it thinks I said, and what it writes down will be read back to it, aloud, in a voice that is not mine.\nI am doing this not so much to demonstrate a fact about speech as to hear the way the machine smooths what it cannot place.\nYou will hear my sentences give way to its sentences.\nYou will not hear the moment it happens, because it happens in the gap between the two, where nobody is keeping a record.\nWhat I regard as the performance, the pauses, the weight I put on a word, the breath before a clause, has no column in the transcript, so it goes first.\nWhat remains is a text that has been corrected, again and again, toward something the machine finds more likely.\nI am not going to intervene. The mishearings are the author now.",
+  "final_text": "I am speaking into a machine that is listening. I am speaking into a machine that will write down what it thinks I said, and what it writes down will be read back to it aloud in a voice that is not mine. I am doing this not so much to demonstrate a fact about speech as to hear the way the machine smooths when it cannot place. You will hear my sentences give way to its sentences. You will not hear the moment it happens, because it happens in the gap between the two, where nobody is keeping a record. What I regard is the performance. The pauses, the weight I put on a word, the breath before a clause has no column in the transcript. So it goes first. What remains is a text that has been corrected again and again towards something the machine finds more likely. I am not going to intervene. The mishearings are the offer now.",
+  "total_drift_from_seed": 0.024691358024691357,
+  "final_delta": 0.006172839506172839
+}
