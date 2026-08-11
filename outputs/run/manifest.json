@@ -1,0 +1,197 @@
+{
+  "config": {
+    "seed_path": "seeds/lucier.txt",
+    "out_dir": "outputs/run",
+    "iterations": 25,
+    "keep_audio": true,
+    "stop_on_fixed_point": true,
+    "fixed_point_patience": 2,
+    "seed_audio": null,
+    "performance": {
+      "breath_groups": true,
+      "pause_short_ms": 180,
+      "pause_long_ms": 520,
+      "lead_silence_ms": 120,
+      "tail_silence_ms": 400,
+      "voice": "aura-2-thalia-en"
+    },
+    "listen": {
+      "model": "nova-3",
+      "smart_format": true,
+      "punctuate": true,
+      "numerals": false,
+      "language": "en",
+      "keyterms": []
+    },
+    "room": {
+      "noise_db": -90.0,
+      "gain_db": 0.0,
+      "lowpass_hz": 0.0,
+      "room_decay": 0.0,
+      "room_delay_ms": 45.0,
+      "clip": 1.0
+    },
+    "rates": {
+      "tts_per_1k_chars": 0.03,
+      "stt_per_minute": 0.0077
+    }
+  },
+  "iterations": [
+    {
+      "index": 0,
+      "text_path": "iterations/00.txt",
+      "audio_path": null,
+      "tokens": 162
+    },
+    {
+      "index": 1,
+      "text_path": "iterations/01.txt",
+      "audio_path": "01.wav",
+      "tokens": 162
+    },
+    {
+      "index": 2,
+      "text_path": "iterations/02.txt",
+      "audio_path": "02.wav",
+      "tokens": 160
+    },
+    {
+      "index": 3,
+      "text_path": "iterations/03.txt",
+      "audio_path": "03.wav",
+      "tokens": 160
+    },
+    {
+      "index": 4,
+      "text_path": "iterations/04.txt",
+      "audio_path": "04.wav",
+      "tokens": 160
+    },
+    {
+      "index": 5,
+      "text_path": "iterations/05.txt",
+      "audio_path": "05.wav",
+      "tokens": 160
+    },
+    {
+      "index": 6,
+      "text_path": "iterations/06.txt",
+      "audio_path": "06.wav",
+      "tokens": 160
+    },
+    {
+      "index": 7,
+      "text_path": "iterations/07.txt",
+      "audio_path": "07.wav",
+      "tokens": 160
+    },
+    {
+      "index": 8,
+      "text_path": "iterations/08.txt",
+      "audio_path": "08.wav",
+      "tokens": 160
+    },
+    {
+      "index": 9,
+      "text_path": "iterations/09.txt",
+      "audio_path": "09.wav",
+      "tokens": 160
+    },
+    {
+      "index": 10,
+      "text_path": "iterations/10.txt",
+      "audio_path": "10.wav",
+      "tokens": 160
+    },
+    {
+      "index": 11,
+      "text_path": "iterations/11.txt",
+      "audio_path": "11.wav",
+      "tokens": 160
+    },
+    {
+      "index": 12,
+      "text_path": "iterations/12.txt",
+      "audio_path": "12.wav",
+      "tokens": 160
+    },
+    {
+      "index": 13,
+      "text_path": "iterations/13.txt",
+      "audio_path": "13.wav",
+      "tokens": 160
+    },
+    {
+      "index": 14,
+      "text_path": "iterations/14.txt",
+      "audio_path": "14.wav",
+      "tokens": 160
+    },
+    {
+      "index": 15,
+      "text_path": "iterations/15.txt",
+      "audio_path": "15.wav",
+      "tokens": 161
+    },
+    {
+      "index": 16,
+      "text_path": "iterations/16.txt",
+      "audio_path": "16.wav",
+      "tokens": 161
+    },
+    {
+      "index": 17,
+      "text_path": "iterations/17.txt",
+      "audio_path": "17.wav",
+      "tokens": 160
+    },
+    {
+      "index": 18,
+      "text_path": "iterations/18.txt",
+      "audio_path": "18.wav",
+      "tokens": 161
+    },
+    {
+      "index": 19,
+      "text_path": "iterations/19.txt",
+      "audio_path": "19.wav",
+      "tokens": 160
+    },
+    {
+      "index": 20,
+      "text_path": "iterations/20.txt",
+      "audio_path": "20.wav",
+      "tokens": 160
+    },
+    {
+      "index": 21,
+      "text_path": "iterations/21.txt",
+      "audio_path": "21.wav",
+      "tokens": 160
+    },
+    {
+      "index": 22,
+      "text_path": "iterations/22.txt",
+      "audio_path": "22.wav",
+      "tokens": 160
+    },
+    {
+      "index": 23,
+      "text_path": "iterations/23.txt",
+      "audio_path": "23.wav",
+      "tokens": 159
+    },
+    {
+      "index": 24,
+      "text_path": "iterations/24.txt",
+      "audio_path": "24.wav",
+      "tokens": 159
+    },
+    {
+      "index": 25,
+      "text_path": "iterations/25.txt",
+      "audio_path": "25.wav",
+      "tokens": 159
+    }
+  ]
+}
