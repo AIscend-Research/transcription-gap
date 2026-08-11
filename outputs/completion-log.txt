@@ -1,0 +1,45 @@
+Transcription Gap validation log
+Date: 2026-08-08
+
+1) Environment setup
+- Created virtual environment: .venv
+- Installed dependencies from requirements.txt
+- Result: success
+
+2) Automated test validation
+- Command: pytest -q
+- Result: 38 passed in 0.38s
+- Artifact: outputs/test-results.txt
+
+3) README estimate command
+- Command: python -m transcription_gap estimate -n 25
+- Result: success
+- Summary: estimate produced cost breakdown for all seeds and total estimate.
+
+4) README offline validation
+- Command: python -m transcription_gap run --offline -n 10
+- Result: success
+- Key result: fixed_point/open outcome observed in the offline simulation; report generated under outputs/run/
+
+5) README offline sweep validation
+- Command: python -m transcription_gap sweep --offline --seeds "seeds/*.txt" -n 10
+- Result: success
+- Artifact: outputs/sweep/analysis.md
+
+6) Live Deepgram loop validation
+- Command: python -m transcription_gap run --seed seeds/lucier.txt -n 25
+- Result: success with real Deepgram API key configured
+- Key result: drift from score 0.123 WER, outcome fixed_point, transcriber wrote 8.8% of final text, cost 0.7979 USD
+- Artifact: outputs/run/summary.json
+
+7) Live Deepgram sweep attempt
+- Command: python -m transcription_gap sweep --seeds "seeds/*.txt" -n 25
+- Result: partial completion due transient API-level errors (503 / Response ended prematurely), but generated outputs were saved as they completed
+- Artifacts: outputs/sweep/*.json and outputs/sweep/analysis.md (partial)
+
+8) Stored artifacts for evidence
+- outputs/test-results.txt
+- outputs/run/summary.json
+- outputs/sweep/analysis.md
+- outputs/sweep/credits/summary.json
+- outputs/completion-log.txt

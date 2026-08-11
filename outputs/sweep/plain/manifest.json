@@ -1,0 +1,77 @@
+{
+  "config": {
+    "seed_path": "seeds/plain.txt",
+    "out_dir": "outputs/sweep/plain",
+    "iterations": 25,
+    "keep_audio": true,
+    "stop_on_fixed_point": true,
+    "fixed_point_patience": 2,
+    "seed_audio": null,
+    "performance": {
+      "breath_groups": true,
+      "pause_short_ms": 180,
+      "pause_long_ms": 520,
+      "lead_silence_ms": 120,
+      "tail_silence_ms": 400,
+      "voice": "aura-2-thalia-en"
+    },
+    "listen": {
+      "model": "nova-3",
+      "smart_format": true,
+      "punctuate": true,
+      "numerals": false,
+      "language": "en",
+      "keyterms": []
+    },
+    "room": {
+      "noise_db": -90.0,
+      "gain_db": 0.0,
+      "lowpass_hz": 0.0,
+      "room_decay": 0.0,
+      "room_delay_ms": 45.0,
+      "clip": 1.0
+    },
+    "rates": {
+      "tts_per_1k_chars": 0.03,
+      "stt_per_minute": 0.0077
+    }
+  },
+  "iterations": [
+    {
+      "index": 0,
+      "text_path": "iterations/00.txt",
+      "audio_path": null,
+      "tokens": 134
+    },
+    {
+      "index": 1,
+      "text_path": "iterations/01.txt",
+      "audio_path": "01.wav",
+      "tokens": 134
+    },
+    {
+      "index": 2,
+      "text_path": "iterations/02.txt",
+      "audio_path": "02.wav",
+      "tokens": 134
+    },
+    {
+      "index": 3,
+      "text_path": "iterations/03.txt",
+      "audio_path": "03.wav",
+      "tokens": 134
+    },
+    {
+      "index": 4,
+      "text_path": "iterations/04.txt",
+      "audio_path": "04.wav",
+      "tokens": 134
+    },
+    {
+      "index": 5,
+      "text_path": "iterations/05.txt",
+      "audio_path": "05.wav",
+      "tokens": 134
+    }
+  ]
+}
